@@ -3,328 +3,361 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>ZIP — Connect the Dots</title>
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+<title>ZIP</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#080810;--sf:#10101c;--s2:#161625;--bd:#1c1c30;
+  --bg:#080810;--sf:#10101c;--s2:#161625;--bd:#1e1e32;
   --cy:#00e5ff;--or:#ff6600;--pk:#ff1f6d;--gn:#00ff88;
   --yw:#ffe000;--pu:#8b4fff;--tx:#eef0ff;--mu:#454568;
   --cell:52px;
 }
-@media(max-width:430px){:root{--cell:44px;}}
-@media(max-width:350px){:root{--cell:38px;}}
+@media(max-width:420px){:root{--cell:44px;}}
+@media(max-width:340px){:root{--cell:38px;}}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
 html,body{height:100%;overflow:hidden;}
-body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);position:relative;}
-.bg-fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.bg-fx::before{content:'';position:absolute;inset:-50%;background:radial-gradient(ellipse 38% 38% at 12% 12%,rgba(0,229,255,.07),transparent 65%),radial-gradient(ellipse 42% 42% at 88% 88%,rgba(255,102,0,.05),transparent 65%),radial-gradient(ellipse 28% 28% at 50% 50%,rgba(139,79,255,.04),transparent 65%);animation:bgmv 13s ease-in-out infinite alternate;}
-@keyframes bgmv{0%{transform:translate(0,0)}100%{transform:translate(-18px,-14px)}}
-.scr{display:none;position:relative;z-index:1;height:100dvh;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);}
+.bfx{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bfx::before{content:'';position:absolute;inset:-50%;
+  background:radial-gradient(ellipse 40% 40% at 15% 15%,rgba(0,229,255,.07),transparent 60%),
+             radial-gradient(ellipse 40% 40% at 85% 85%,rgba(255,102,0,.05),transparent 60%);
+  animation:bga 12s ease-in-out infinite alternate;}
+@keyframes bga{0%{transform:translate(0,0)}100%{transform:translate(-15px,-10px)}}
+.scr{display:none;position:relative;z-index:1;height:100dvh;overflow-y:auto;overflow-x:hidden;}
 .scr.on{display:flex;flex-direction:column;}
-#A{align-items:center;justify-content:center;padding:20px;}
-.abox{width:100%;max-width:350px;}
-.logo-big{font-family:'Orbitron',monospace;font-size:clamp(48px,15vw,76px);font-weight:900;letter-spacing:-2px;line-height:1;background:linear-gradient(135deg,var(--cy),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 30px rgba(0,229,255,.22));margin-bottom:4px;}
-.logo-tag{color:var(--mu);font-size:11px;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:30px;}
-.atabs{display:flex;gap:3px;background:var(--s2);border-radius:12px;padding:4px;margin-bottom:20px;}
+#SA{align-items:center;justify-content:center;padding:20px;}
+.abox{width:100%;max-width:340px;}
+.biglogo{font-family:'Orbitron',monospace;font-size:clamp(52px,16vw,80px);font-weight:900;letter-spacing:-2px;
+  background:linear-gradient(135deg,var(--cy),var(--or));-webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;background-clip:text;
+  filter:drop-shadow(0 0 28px rgba(0,229,255,.25));margin-bottom:4px;}
+.atag{color:var(--mu);font-size:11px;letter-spacing:2px;text-transform:uppercase;margin-bottom:28px;}
+.atabs{display:flex;gap:3px;background:var(--s2);border-radius:12px;padding:4px;margin-bottom:18px;}
 .atab{flex:1;text-align:center;padding:9px;border-radius:9px;font-size:14px;font-weight:800;cursor:pointer;color:var(--mu);transition:all .15s;}
 .atab.on{background:var(--sf);color:var(--tx);}
-.fld{margin-bottom:14px;}
-.fld label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);margin-bottom:6px;}
+.fld{margin-bottom:13px;}
+.fld label{display:block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--mu);margin-bottom:6px;}
 .fld input{width:100%;background:var(--sf);border:1.5px solid var(--bd);border-radius:11px;padding:12px 14px;color:var(--tx);font-family:'Nunito',sans-serif;font-size:15px;outline:none;transition:border-color .15s;}
 .fld input:focus{border-color:var(--cy);}
-.msg{padding:9px 12px;border-radius:9px;font-size:13px;font-weight:700;display:none;margin-bottom:12px;}
+.msg{padding:9px 12px;border-radius:9px;font-size:13px;font-weight:700;display:none;margin-bottom:11px;}
 .msg.on{display:block;}
-.msg.e{background:rgba(255,31,109,.12);border:1px solid rgba(255,31,109,.28);color:#ff6fa3;}
+.msg.e{background:rgba(255,31,109,.12);border:1px solid rgba(255,31,109,.28);color:#ff7aaa;}
 .msg.s{background:rgba(0,255,136,.09);border:1px solid rgba(0,255,136,.22);color:var(--gn);}
 .msg.i{background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.18);color:var(--cy);}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;cursor:pointer;border-radius:12px;padding:12px 20px;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;transition:all .15s;white-space:nowrap;}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:none;cursor:pointer;border-radius:12px;padding:12px 20px;font-family:'Nunito',sans-serif;font-weight:900;font-size:14px;transition:all .15s;white-space:nowrap;}
 .btn:active:not(:disabled){transform:scale(.96);}
-.btn:disabled{opacity:.45;cursor:not-allowed!important;transform:none!important;filter:none!important;}
-.bp{background:linear-gradient(135deg,var(--cy),#0077ff);color:#000;box-shadow:0 4px 18px rgba(0,229,255,.25);}
-.bp:hover:not(:disabled){box-shadow:0 6px 26px rgba(0,229,255,.45);transform:translateY(-1px);}
-.bo{background:linear-gradient(135deg,var(--or),var(--pk));color:#fff;box-shadow:0 4px 18px rgba(255,102,0,.25);}
-.bo:hover:not(:disabled){box-shadow:0 6px 26px rgba(255,102,0,.45);transform:translateY(-1px);}
+.btn:disabled{opacity:.4;cursor:not-allowed!important;transform:none!important;}
+.bp{background:linear-gradient(135deg,var(--cy),#0077ff);color:#000;box-shadow:0 4px 16px rgba(0,229,255,.28);}
+.bp:hover:not(:disabled){box-shadow:0 6px 24px rgba(0,229,255,.45);transform:translateY(-1px);}
+.bo{background:linear-gradient(135deg,var(--or),var(--pk));color:#fff;box-shadow:0 4px 16px rgba(255,102,0,.28);}
+.bo:hover:not(:disabled){box-shadow:0 6px 24px rgba(255,102,0,.45);transform:translateY(-1px);}
+.brd{background:rgba(255,31,109,.15);border:1.5px solid rgba(255,31,109,.35);color:var(--pk);}
+.brd:hover:not(:disabled){background:rgba(255,31,109,.25);}
 .bq{background:transparent;border:1.5px solid var(--bd);color:var(--mu);}
 .bq:hover:not(:disabled){border-color:var(--cy);color:var(--cy);}
-.bfull{width:100%;}
-.bsm{padding:7px 14px;font-size:12px;border-radius:9px;}
-.tb{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(8,8,16,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);flex-shrink:0;position:sticky;top:0;z-index:50;}
-.logo-sm{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;background:linear-gradient(135deg,var(--cy),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.chip{display:flex;align-items:center;gap:5px;background:rgba(255,224,0,.09);border:1px solid rgba(255,224,0,.18);border-radius:999px;padding:5px 11px;font-size:13px;font-weight:900;color:var(--yw);}
+.bw{width:100%;}.bsm{padding:7px 14px;font-size:12px;border-radius:9px;}
+.tb{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:rgba(8,8,16,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);flex-shrink:0;position:sticky;top:0;z-index:50;}
+.slogo{font-family:'Orbitron',monospace;font-size:18px;font-weight:900;background:linear-gradient(135deg,var(--cy),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.chip{display:flex;align-items:center;gap:5px;background:rgba(255,224,0,.09);border:1px solid rgba(255,224,0,.2);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:900;color:var(--yw);}
 #BN{position:fixed;bottom:0;left:0;right:0;z-index:200;background:rgba(8,8,16,.96);backdrop-filter:blur(14px);border-top:1px solid var(--bd);display:none;justify-content:space-around;padding:7px 0 max(10px,env(safe-area-inset-bottom));}
 #BN.on{display:flex;}
-.nb{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--mu);font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:5px 16px;border-radius:10px;transition:color .15s;}
+.nb{display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;color:var(--mu);font-family:'Nunito',sans-serif;font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;padding:5px 18px;transition:color .15s;}
 .nb.on{color:var(--cy);}
-.nb svg{width:20px;height:20px;stroke-width:2.2;}
-#L{padding-bottom:72px;}
-.lwrap{padding:18px 14px;max-width:420px;margin:0 auto;width:100%;}
-.stitle{font-family:'Orbitron',monospace;font-size:clamp(16px,4.5vw,22px);font-weight:900;color:var(--cy);margin-bottom:2px;}
-.ssub{color:var(--mu);font-size:12px;margin-bottom:22px;}
-.dcards{display:flex;flex-direction:column;gap:10px;margin-bottom:20px;}
-.dc{background:var(--sf);border:2px solid var(--bd);border-radius:14px;padding:15px 17px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;}
-.dc:hover,.dc.on{border-color:var(--cy);background:rgba(0,229,255,.04);}
-.dc.on .dr{background:var(--cy);}
-.de.on{border-color:var(--gn);}.de.on .dr{background:var(--gn);}
-.dm.on{border-color:var(--yw);}.dm.on .dr{background:var(--yw);}
-.dh.on{border-color:var(--pk);}.dh.on .dr{background:var(--pk);}
+.nb svg{width:20px;height:20px;stroke-width:2;}
+#SL{padding-bottom:75px;}
+.lwrap{padding:18px 14px;max-width:400px;margin:0 auto;width:100%;}
+.ptitle{font-family:'Orbitron',monospace;font-size:clamp(15px,4vw,20px);font-weight:900;color:var(--cy);margin-bottom:2px;}
+.psub{color:var(--mu);font-size:12px;margin-bottom:20px;}
+.dcards{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;}
+.dc{background:var(--sf);border:2px solid var(--bd);border-radius:14px;padding:14px 16px;cursor:pointer;transition:all .18s;display:flex;align-items:center;justify-content:space-between;}
+.dc.on,.dc:hover{background:rgba(0,229,255,.04);}
+.de.on{border-color:var(--gn);}.dm.on{border-color:var(--yw);}.dh.on{border-color:var(--pk);}
 .dn{font-weight:900;font-size:15px;}.dd{font-size:11px;color:var(--mu);margin-top:2px;}
-.dr{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd);transition:all .18s;flex-shrink:0;}
+.dr{width:18px;height:18px;border-radius:50%;border:2px solid var(--bd);flex-shrink:0;transition:all .15s;}
+.de.on .dr{background:var(--gn);border-color:var(--gn);}
+.dm.on .dr{background:var(--yw);border-color:var(--yw);}
+.dh.on .dr{background:var(--pk);border-color:var(--pk);}
 .ce{color:var(--gn);}.cm{color:var(--yw);}.ch{color:var(--pk);}
-.zc{text-align:center;padding:32px 16px;}
-.zi{font-size:50px;margin-bottom:12px;}
-#G{padding-bottom:0;}
-.ghdr{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:rgba(8,8,16,.93);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);flex-shrink:0;}
+.zc{text-align:center;padding:30px 16px;}
+#SG{padding-bottom:0;}
+.ghdr{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;background:rgba(8,8,16,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--bd);flex-shrink:0;}
 .dpill{padding:4px 10px;border-radius:999px;font-size:10px;font-weight:900;text-transform:uppercase;letter-spacing:.8px;}
 .pe{background:rgba(0,255,136,.12);color:var(--gn);border:1px solid rgba(0,255,136,.25);}
 .pm{background:rgba(255,224,0,.1);color:var(--yw);border:1px solid rgba(255,224,0,.22);}
 .ph{background:rgba(255,31,109,.1);color:var(--pk);border:1px solid rgba(255,31,109,.22);}
-.timer{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;}
+.tmr{font-family:'Orbitron',monospace;font-size:18px;font-weight:700;}
 .gbody{display:flex;flex-direction:column;align-items:center;padding:12px 10px;gap:12px;}
-.hbox{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:8px 14px;font-size:12px;color:var(--mu);text-align:center;width:100%;max-width:calc(7*var(--cell));min-height:38px;transition:all .25s;}
+.hbox{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:8px 14px;font-size:12px;color:var(--mu);text-align:center;width:100%;max-width:calc(7*var(--cell));min-height:38px;transition:all .22s;}
 .hbox.lit{border-color:var(--cy);color:var(--tx);}
-.gw{position:relative;border-radius:15px;overflow:hidden;box-shadow:0 0 0 1px var(--bd),0 0 32px rgba(0,229,255,.07);}
-#grid{display:grid;grid-template-columns:repeat(7,var(--cell));grid-template-rows:repeat(7,var(--cell));touch-action:none;user-select:none;position:relative;background:var(--sf);}
-.cell{width:var(--cell);height:var(--cell);position:relative;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);transition:background .1s;}
+.gw{position:relative;border-radius:14px;overflow:hidden;box-shadow:0 0 0 1px var(--bd),0 0 30px rgba(0,229,255,.07);}
+#GD{display:grid;grid-template-columns:repeat(7,var(--cell));grid-template-rows:repeat(7,var(--cell));touch-action:none;user-select:none;position:relative;background:var(--sf);}
+.cell{width:var(--cell);height:var(--cell);position:relative;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--bd);border-bottom:1px solid var(--bd);}
 .cell:nth-child(7n){border-right:none;}
 .cell:nth-last-child(-n+7){border-bottom:none;}
-.ndot{width:calc(var(--cell)*.6);height:calc(var(--cell)*.6);border-radius:50%;background:#fff;color:#000;font-size:calc(var(--cell)*.24);font-weight:900;display:flex;align-items:center;justify-content:center;position:relative;z-index:4;box-shadow:0 2px 8px rgba(0,0,0,.45);transition:transform .12s;}
-#psvg{position:absolute;top:0;left:0;pointer-events:none;z-index:2;}
-.wr{border-right:3px solid rgba(255,255,255,.6)!important;}
-.wb{border-bottom:3px solid rgba(255,255,255,.6)!important;}
-@keyframes cwf{0%{background:var(--sf)}50%{background:rgba(0,255,136,.32)}100%{background:rgba(0,255,136,.1)}}
-.cwin{animation:cwf .36s ease forwards;}
+.ndot{width:calc(var(--cell)*.6);height:calc(var(--cell)*.6);border-radius:50%;background:#fff;color:#000;font-size:calc(var(--cell)*.24);font-weight:900;display:flex;align-items:center;justify-content:center;position:relative;z-index:4;box-shadow:0 2px 8px rgba(0,0,0,.4);}
+#PS{position:absolute;top:0;left:0;pointer-events:none;z-index:2;}
+.wr{border-right:3px solid rgba(255,255,255,.55)!important;}
+.wb{border-bottom:3px solid rgba(255,255,255,.55)!important;}
+@keyframes cwf{0%{background:var(--sf)}60%{background:rgba(0,255,136,.3)}100%{background:rgba(0,255,136,.08)}}
+.cwin{animation:cwf .4s ease forwards;}
 @keyframes hgf{0%{opacity:1}100%{opacity:0}}
-#hintbtn{background:rgba(139,79,255,.18);border:1.5px solid rgba(139,79,255,.32);color:var(--pu);}
-#hintbtn.lit{background:linear-gradient(135deg,var(--pu),var(--cy));color:#fff;border-color:transparent;box-shadow:0 0 20px rgba(139,79,255,.55);animation:hpul .5s ease;}
+#HB{background:rgba(139,79,255,.18);border:1.5px solid rgba(139,79,255,.32);color:var(--pu);}
+#HB.lit{background:linear-gradient(135deg,var(--pu),var(--cy));color:#fff;border-color:transparent;box-shadow:0 0 20px rgba(139,79,255,.55);animation:hpul .5s ease;}
+#HB.cd{opacity:.5;cursor:not-allowed;}
 @keyframes hpul{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-.ctrls{display:flex;gap:8px;}
-#P{padding-bottom:72px;}
-.pbody{padding:16px 14px;max-width:480px;margin:0 auto;width:100%;}
-.av{width:62px;height:62px;border-radius:50%;background:linear-gradient(135deg,var(--cy),var(--or));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#000;box-shadow:0 0 20px rgba(0,229,255,.22);flex-shrink:0;}
-.slbl{font-size:9px;text-transform:uppercase;letter-spacing:1.2px;color:var(--mu);font-weight:800;margin-bottom:9px;}
-.sgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;}
-.sbox{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:11px;text-align:center;}
+.ctrls{display:flex;gap:8px;align-items:center;}
+.hint-cd{font-size:10px;color:var(--mu);font-weight:700;}
+/* WRONG FLASH */
+@keyframes wfl{0%,100%{background:var(--sf)}50%{background:rgba(255,31,109,.25)}}
+.wrong-flash{animation:wfl .35s ease;}
+#SP{padding-bottom:75px;}
+.pbody{padding:16px 14px;max-width:460px;margin:0 auto;width:100%;}
+.av{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,var(--cy),var(--or));display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;color:#000;box-shadow:0 0 18px rgba(0,229,255,.2);flex-shrink:0;}
+.slbl{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--mu);font-weight:800;margin-bottom:8px;}
+.sg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:15px;}
+.sb{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:10px;text-align:center;}
 .sv{font-size:20px;font-weight:900;color:var(--cy);}
-.sl{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.4px;margin-top:1px;}
+.sl{font-size:9px;color:var(--mu);text-transform:uppercase;margin-top:1px;}
 .hi{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:10px 13px;display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;font-size:12px;}
-.empty{color:var(--mu);text-align:center;padding:16px;font-size:13px;}
+.empty{color:var(--mu);text-align:center;padding:14px;font-size:13px;}
 .trow{display:flex;align-items:center;justify-content:space-between;background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;margin-bottom:10px;}
 .tog{width:40px;height:21px;border-radius:999px;background:var(--bd);position:relative;cursor:pointer;transition:background .15s;flex-shrink:0;}
 .tog.on{background:var(--cy);}
 .tog::after{content:'';position:absolute;top:3px;left:3px;width:15px;height:15px;border-radius:50%;background:#fff;transition:left .15s;}
 .tog.on::after{left:22px;}
-#R{padding-bottom:72px;}
-.lbb{padding:14px;max-width:480px;margin:0 auto;width:100%;}
+#SR{padding-bottom:75px;}
+.lbb{padding:14px;max-width:460px;margin:0 auto;width:100%;}
 .lrow{display:flex;align-items:center;gap:10px;background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:10px 12px;margin-bottom:6px;}
 .lrow.me{border-color:var(--cy);background:rgba(0,229,255,.04);}
-.lrank{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--mu);width:24px;flex-shrink:0;}
-.lname{font-weight:800;flex:1;font-size:13px;}
+.lrk{font-family:'Orbitron',monospace;font-size:11px;font-weight:700;color:var(--mu);width:24px;flex-shrink:0;}
+.lnm{font-weight:800;flex:1;font-size:13px;}
 .lsc{font-family:'Orbitron',monospace;font-size:12px;color:var(--cy);}
-.spin{width:32px;height:32px;border-radius:50%;border:3px solid var(--bd);border-top-color:var(--cy);animation:sp .7s linear infinite;margin:32px auto;}
+.spin{width:30px;height:30px;border-radius:50%;border:3px solid var(--bd);border-top-color:var(--cy);animation:sp .7s linear infinite;margin:30px auto;}
 @keyframes sp{to{transform:rotate(360deg)}}
-#WN{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
-#WN.on{display:flex;}
-.wemo{font-size:66px;animation:pb .5s ease forwards;}
-.wtitle{font-family:'Orbitron',monospace;font-size:clamp(20px,6vw,34px);font-weight:900;background:linear-gradient(135deg,var(--cy),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:12px 0 5px;animation:su .42s .16s ease both;}
-.wsub{color:var(--mu);font-size:14px;margin-bottom:22px;animation:su .42s .28s ease both;}
-.wst{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:22px;width:100%;max-width:290px;animation:su .42s .4s ease both;}
-.ws{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:13px;}
+#WO{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);backdrop-filter:blur(10px);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;}
+#WO.on{display:flex;}
+.wem{font-size:64px;animation:popb .5s ease both;}
+.wttl{font-family:'Orbitron',monospace;font-size:clamp(20px,6vw,34px);font-weight:900;background:linear-gradient(135deg,var(--cy),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:12px 0 5px;animation:su .4s .15s ease both;}
+.wsub{color:var(--mu);font-size:14px;margin-bottom:20px;animation:su .4s .28s ease both;}
+.wst{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:20px;width:100%;max-width:280px;animation:su .4s .38s ease both;}
+.ws{background:var(--sf);border:1px solid var(--bd);border-radius:12px;padding:12px;}
 .wsv{font-size:22px;font-weight:900;color:var(--cy);}
-.wsl{font-size:9px;color:var(--mu);text-transform:uppercase;letter-spacing:.5px;margin-top:1px;}
-.wb2{display:flex;gap:9px;animation:su .42s .5s ease both;}
-@keyframes pb{0%{transform:scale(0);opacity:0}60%{transform:scale(1.2)}80%{transform:scale(.93)}100%{transform:scale(1);opacity:1}}
+.wsl{font-size:9px;color:var(--mu);text-transform:uppercase;margin-top:1px;}
+.wbts{display:flex;gap:9px;animation:su .4s .46s ease both;}
+@keyframes popb{0%{transform:scale(0);opacity:0}60%{transform:scale(1.2)}80%{transform:scale(.92)}100%{transform:scale(1);opacity:1}}
 @keyframes su{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
-.cp{position:fixed;pointer-events:none;z-index:600;border-radius:2px;animation:cf linear forwards;}
-@keyframes cf{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(760deg);opacity:0}}
+.cp{position:fixed;pointer-events:none;z-index:600;border-radius:2px;animation:cfall linear forwards;}
+@keyframes cfall{0%{transform:translateY(-10px) rotate(0deg);opacity:1}100%{transform:translateY(105vh) rotate(720deg);opacity:0}}
 .ol{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(8px);z-index:400;display:none;align-items:center;justify-content:center;padding:14px;}
 .ol.on{display:flex;}
-.mo{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:24px 20px;width:100%;max-width:340px;animation:pb .2s ease;}
-.mo h3{font-size:16px;font-weight:900;margin-bottom:6px;}
-.mo p{color:var(--mu);font-size:13px;line-height:1.5;margin-bottom:14px;}
-.mb{display:flex;gap:9px;margin-top:13px;}
-#toast{position:fixed;bottom:82px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--sf);border:1px solid var(--cy);color:var(--cy);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:800;opacity:0;transition:all .22s;z-index:999;white-space:nowrap;pointer-events:none;}
+.mo{background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px 18px;width:100%;max-width:330px;animation:popb .2s ease;}
+.mo h3{font-size:16px;font-weight:900;margin-bottom:5px;}
+.mo p{color:var(--mu);font-size:13px;line-height:1.5;margin-bottom:13px;}
+.mb{display:flex;gap:9px;margin-top:12px;}
+#toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--sf);border:1px solid var(--cy);color:var(--cy);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:800;opacity:0;transition:all .22s;z-index:999;white-space:nowrap;pointer-events:none;}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px;}
 </style>
 </head>
 <body>
-<div class="bg-fx"></div>
+<div class="bfx"></div>
 
-<div id="A" class="scr on">
+<!-- AUTH -->
+<div id="SA" class="scr on">
   <div class="abox">
-    <div class="logo-big">ZIP</div>
-    <div class="logo-tag">Connect · Fill · Win</div>
+    <div class="biglogo">ZIP</div>
+    <div class="atag">Connect &middot; Fill &middot; Win</div>
     <div class="atabs">
       <div class="atab on" id="t_in" onclick="setMode('in')">Sign In</div>
       <div class="atab" id="t_up" onclick="setMode('up')">Register</div>
     </div>
     <div class="msg" id="amsg"></div>
-    <div class="fld">
-      <label>Username</label>
-      <input id="iu" type="text" placeholder="your_username" autocomplete="username" maxlength="20" autocorrect="off" autocapitalize="none" spellcheck="false">
-    </div>
-    <div class="fld">
-      <label>Password</label>
-      <input id="ip" type="password" placeholder="••••••••" autocomplete="current-password">
-    </div>
-    <div class="fld" id="f2" style="display:none">
-      <label>2-Step Code</label>
-      <input id="i2" type="text" placeholder="XXXXXXXX" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-family:'Orbitron',monospace" oninput="this.value=this.value.toUpperCase()">
-    </div>
-    <button class="btn bp bfull" id="abtn" onclick="doAuth()">Sign In</button>
-    <div style="text-align:center;margin-top:13px;font-size:13px;color:var(--mu)" id="asw">
+    <div class="fld"><label>Username</label><input id="iu" type="text" placeholder="your_username" autocomplete="username" maxlength="20" autocorrect="off" autocapitalize="none" spellcheck="false"></div>
+    <div class="fld"><label>Password</label><input id="ip" type="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password"></div>
+    <div class="fld" id="f2" style="display:none"><label>2-Step Code</label><input id="i2" type="text" placeholder="XXXXXXXX" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-family:'Orbitron',monospace" oninput="this.value=this.value.toUpperCase()"></div>
+    <button class="btn bp bw" id="abtn" onclick="doAuth()">Sign In</button>
+    <div style="text-align:center;margin-top:12px;font-size:13px;color:var(--mu)" id="asw">
       No account? <a style="color:var(--cy);cursor:pointer;font-weight:800" onclick="setMode('up')">Register free</a>
     </div>
   </div>
 </div>
 
-<div id="L" class="scr">
-  <div class="tb"><div class="logo-sm">ZIP</div><div class="chip">&#9889; <span id="lc">0</span></div></div>
+<!-- LOBBY -->
+<div id="SL" class="scr">
+  <div class="tb"><div class="slogo">ZIP</div><div class="chip">&#9889; <span id="LC">0</span></div></div>
   <div class="lwrap">
-    <div class="stitle">New Puzzle</div>
-    <div class="ssub">Each game costs 1 credit</div>
-    <div id="nc" style="display:none">
+    <div class="ptitle">New Puzzle</div>
+    <div class="psub">Each game costs 1 credit</div>
+    <div id="NC" style="display:none">
       <div class="zc">
-        <div class="zi">&#9889;</div>
+        <div style="font-size:48px;margin-bottom:12px">&#9889;</div>
         <div style="font-size:17px;font-weight:900;margin-bottom:6px">Out of Credits!</div>
-        <div style="color:var(--mu);font-size:13px;margin-bottom:16px">Enter a code from the admin to get more credits.</div>
-        <button class="btn bp bfull" onclick="openOl('ol_code')">Enter Code</button>
+        <div style="color:var(--mu);font-size:13px;margin-bottom:16px">Enter a code from the admin to get more.</div>
+        <button class="btn bp bw" onclick="openOl('OC')">Enter Code</button>
       </div>
     </div>
-    <div id="dw">
+    <div id="DW">
       <div class="dcards">
         <div class="dc de on" id="dc_e" onclick="pickD('easy',this)">
-          <div><div class="dn ce">Easy</div><div class="dd">8-9 dots · Beginner friendly</div></div>
-          <div class="dr" id="dr_e" style="background:var(--gn)"></div>
+          <div><div class="dn ce">Easy</div><div class="dd">8-9 dots &middot; Relaxed paths, fewer walls</div></div>
+          <div class="dr"></div>
         </div>
         <div class="dc dm" id="dc_m" onclick="pickD('medium',this)">
-          <div><div class="dn cm">Medium</div><div class="dd">11-13 dots · Step it up</div></div>
-          <div class="dr" id="dr_m"></div>
+          <div><div class="dn cm">Medium</div><div class="dd">11-13 dots &middot; More twists</div></div>
+          <div class="dr"></div>
         </div>
         <div class="dc dh" id="dc_h" onclick="pickD('hard',this)">
-          <div><div class="dn ch">Hard</div><div class="dd">15-20 dots · For champions</div></div>
-          <div class="dr" id="dr_h"></div>
+          <div><div class="dn ch">Hard</div><div class="dd">15-17 dots &middot; Challenging but fair</div></div>
+          <div class="dr"></div>
         </div>
       </div>
-      <button class="btn bo bfull" id="pbtn" onclick="doPlay()">&#9654; Play Now (-1 credit)</button>
+      <button class="btn bo bw" id="PB" onclick="doPlay()">&#9654; Play Now (&minus;1 credit)</button>
     </div>
   </div>
 </div>
 
-<div id="G" class="scr">
+<!-- GAME -->
+<div id="SG" class="scr">
   <div class="ghdr">
     <button class="btn bq bsm" onclick="exitGame()">Exit</button>
-    <div class="dpill pe" id="dpill">EASY</div>
-    <div class="timer" id="timerd">0:00</div>
+    <div class="dpill pe" id="DP">EASY</div>
+    <div class="tmr" id="TMR">0:00</div>
   </div>
   <div class="gbody">
-    <div class="hbox" id="hbox">Connect the dots in order — fill every single cell!</div>
-    <div class="gw"><div id="grid"></div><svg id="psvg" xmlns="http://www.w3.org/2000/svg"></svg></div>
+    <div class="hbox" id="HBX">Connect dots 1 &rarr; 2 &rarr; 3 in order &mdash; fill every cell!</div>
+    <div class="gw">
+      <div id="GD"></div>
+      <svg id="PS" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
     <div class="ctrls">
       <button class="btn bq bsm" onclick="undoStep()">Undo</button>
-      <button class="btn bsm" id="hintbtn" onclick="useHint()">Hint</button>
+      <button class="btn bsm" id="HB" onclick="useHint()">Hint</button>
+      <span class="hint-cd" id="HCD"></span>
     </div>
   </div>
 </div>
 
-<div id="P" class="scr">
-  <div class="tb"><div class="logo-sm">ZIP</div><div class="chip">&#9889; <span id="pc">0</span></div></div>
+<!-- PROFILE -->
+<div id="SP" class="scr">
+  <div class="tb"><div class="slogo">ZIP</div><div class="chip">&#9889; <span id="PC">0</span></div></div>
   <div class="pbody">
-    <div style="display:flex;align-items:center;gap:13px;margin-bottom:20px">
-      <div class="av" id="pav">?</div>
+    <div style="display:flex;align-items:center;gap:13px;margin-bottom:18px">
+      <div class="av" id="PAV">?</div>
       <div>
-        <div style="font-size:18px;font-weight:900" id="pname">-</div>
-        <div style="color:var(--mu);font-size:12px" id="prank">Rank #-</div>
+        <div style="font-size:18px;font-weight:900" id="PN">-</div>
+        <div style="color:var(--mu);font-size:12px" id="PRK">Rank #-</div>
       </div>
     </div>
-    <div class="sgrid" id="pstats"></div>
+    <div class="sg" id="PST"></div>
     <div class="slbl">Credits</div>
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px">
-      <div style="font-size:38px;font-weight:900;color:var(--yw)" id="bigc">0</div>
-      <button class="btn bq bsm" onclick="openOl('ol_code')">+ Enter Code</button>
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+      <div style="font-size:36px;font-weight:900;color:var(--yw)" id="BC">0</div>
+      <button class="btn bq bsm" onclick="openOl('OC')">+ Enter Code</button>
     </div>
     <div class="slbl">Security</div>
     <div class="trow">
       <div><div style="font-weight:800;font-size:13px">2-Step Verification</div><div style="color:var(--mu);font-size:11px">Extra login protection</div></div>
-      <div class="tog" id="t2tog" onclick="toggle2fa()"></div>
+      <div class="tog" id="T2T" onclick="toggle2fa()"></div>
     </div>
-    <div id="t2box" style="display:none;margin-bottom:14px">
-      <div style="font-size:11px;color:var(--mu);margin-bottom:4px">Your secret 2FA code — keep this safe:</div>
-      <div style="font-family:'Orbitron',monospace;font-size:16px;letter-spacing:4px;color:var(--cy);background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;text-align:center" id="t2code">-</div>
+    <div id="T2B" style="display:none;margin-bottom:13px">
+      <div style="font-size:11px;color:var(--mu);margin-bottom:4px">Your secret code &mdash; save this!</div>
+      <div style="font-family:'Orbitron',monospace;font-size:16px;letter-spacing:4px;color:var(--cy);background:var(--s2);border:1px solid var(--bd);border-radius:8px;padding:8px 12px;text-align:center" id="T2C">-</div>
     </div>
     <div class="slbl" style="margin-top:4px">Game History</div>
-    <div id="ghist"></div>
-    <div style="margin-top:16px"><button class="btn bq bsm" onclick="confirmLogout()">Sign Out</button></div>
+    <div id="GH"></div>
+    <div style="margin-top:16px;display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn bq bsm" onclick="confirmLogout()">Sign Out</button>
+      <button class="btn brd bsm" onclick="openOl('ODA')">Delete Account</button>
+    </div>
   </div>
 </div>
 
-<div id="R" class="scr">
-  <div class="tb"><div class="logo-sm">ZIP</div><div style="font-family:'Orbitron',monospace;font-size:11px;color:var(--cy)">GLOBAL RANKS</div></div>
-  <div class="lbb"><div id="lbc"><div class="spin"></div></div></div>
+<!-- LEADERBOARD -->
+<div id="SR" class="scr">
+  <div class="tb"><div class="slogo">ZIP</div><div style="font-family:'Orbitron',monospace;font-size:11px;color:var(--cy)">RANKS</div></div>
+  <div class="lbb"><div id="LBC"><div class="spin"></div></div></div>
 </div>
 
+<!-- BOTTOM NAV -->
 <div id="BN">
-  <button class="nb on" id="nb_p" onclick="nav('lobby')">
+  <button class="nb on" id="NP" onclick="nav('lobby')">
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21" fill="currentColor" stroke="none"/></svg>Play
   </button>
-  <button class="nb" id="nb_m" onclick="nav('prof')">
+  <button class="nb" id="NM" onclick="nav('prof')">
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Me
   </button>
-  <button class="nb" id="nb_r" onclick="nav('ranks')">
+  <button class="nb" id="NR" onclick="nav('ranks')">
     <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>Ranks
   </button>
 </div>
 
-<div id="WN">
-  <div class="wemo">&#127881;</div>
-  <div class="wtitle">HURRAY!</div>
+<!-- WIN -->
+<div id="WO">
+  <div class="wem">&#127881;</div>
+  <div class="wttl">HURRAY!</div>
   <div class="wsub">You completed the puzzle! Amazing!</div>
   <div class="wst">
-    <div class="ws"><div class="wsv" id="wt">0:00</div><div class="wsl">Time</div></div>
-    <div class="ws"><div class="wsv" id="wsc">0</div><div class="wsl">Score</div></div>
-    <div class="ws"><div class="wsv" id="wd">Easy</div><div class="wsl">Difficulty</div></div>
-    <div class="ws"><div class="wsv" id="wcl">0</div><div class="wsl">Credits Left</div></div>
+    <div class="ws"><div class="wsv" id="WT">0:00</div><div class="wsl">Time</div></div>
+    <div class="ws"><div class="wsv" id="WSC">0</div><div class="wsl">Score</div></div>
+    <div class="ws"><div class="wsv" id="WD">Easy</div><div class="wsl">Difficulty</div></div>
+    <div class="ws"><div class="wsv" id="WCL">0</div><div class="wsl">Credits</div></div>
   </div>
-  <div class="wb2">
-    <button class="btn bq bsm" onclick="closeWin();nav('ranks')">Ranks</button>
-    <button class="btn bo" onclick="closeWin();nav('lobby')">Next Puzzle</button>
+  <div class="wbts">
+    <button class="btn bq bsm" onclick="closeWin();nav('ranks')">&#127942; Ranks</button>
+    <button class="btn bo" onclick="closeWin();nav('lobby')">&#9654; Next</button>
   </div>
 </div>
 
-<div class="ol" id="ol_code">
+<!-- CODE MODAL -->
+<div class="ol" id="OC">
   <div class="mo">
     <h3>Enter Credit Code</h3>
-    <p>Enter the code from the admin to add credits.</p>
-    <div class="fld"><label>Code</label><input id="ci" type="text" placeholder="XXXX-XXXX" maxlength="9" style="text-transform:uppercase;letter-spacing:3px;font-family:'Orbitron',monospace" oninput="this.value=this.value.toUpperCase()"></div>
-    <div class="msg" id="cmsg"></div>
+    <p>Enter the code from your admin to add credits.</p>
+    <div class="fld"><label>Code</label><input id="CI" type="text" placeholder="XXXX-XXXX" maxlength="9" style="text-transform:uppercase;letter-spacing:3px;font-family:'Orbitron',monospace" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="msg" id="CM"></div>
     <div class="mb">
-      <button class="btn bq" style="flex:1" onclick="closeOl('ol_code')">Cancel</button>
+      <button class="btn bq" style="flex:1" onclick="closeOl('OC')">Cancel</button>
       <button class="btn bp" style="flex:1" onclick="redeemCode()">Redeem</button>
     </div>
   </div>
 </div>
 
-<div class="ol" id="ol_lo">
+<!-- LOGOUT MODAL -->
+<div class="ol" id="OL">
   <div class="mo">
     <h3>Sign Out?</h3>
     <p>Are you sure you want to sign out?</p>
     <div class="mb">
-      <button class="btn bq" style="flex:1" onclick="closeOl('ol_lo')">Cancel</button>
+      <button class="btn bq" style="flex:1" onclick="closeOl('OL')">Cancel</button>
       <button class="btn bo" style="flex:1" onclick="doLogout()">Sign Out</button>
     </div>
   </div>
 </div>
 
-<div class="ol" id="ol_lo2">
+<!-- LOGOUT 2FA -->
+<div class="ol" id="OL2">
   <div class="mo">
     <h3>Verify to Sign Out</h3>
     <p>Enter your 2-step code to confirm.</p>
-    <div class="fld"><input id="lo2i" type="text" placeholder="Your 2FA code" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-family:'Orbitron',monospace" oninput="this.value=this.value.toUpperCase()"></div>
-    <div class="msg" id="lo2m"></div>
+    <div class="fld"><input id="L2I" type="text" placeholder="Your 2FA code" maxlength="8" style="text-transform:uppercase;letter-spacing:3px;font-family:'Orbitron',monospace" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="msg" id="L2M"></div>
     <div class="mb">
-      <button class="btn bq" style="flex:1" onclick="closeOl('ol_lo2')">Cancel</button>
-      <button class="btn bo" style="flex:1" onclick="verify2faLogout()">Confirm</button>
+      <button class="btn bq" style="flex:1" onclick="closeOl('OL2')">Cancel</button>
+      <button class="btn bo" style="flex:1" onclick="v2faLogout()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- DELETE ACCOUNT -->
+<div class="ol" id="ODA">
+  <div class="mo">
+    <h3>Delete Account?</h3>
+    <p>This permanently deletes your account, all game history, and removes you from leaderboards. This cannot be undone.</p>
+    <div class="fld"><label>Type DELETE to confirm</label><input id="DAI" type="text" placeholder="DELETE" maxlength="6" oninput="this.value=this.value.toUpperCase()"></div>
+    <div class="msg" id="DAM"></div>
+    <div class="mb">
+      <button class="btn bq" style="flex:1" onclick="closeOl('ODA')">Cancel</button>
+      <button class="btn brd" style="flex:1" onclick="deleteAccount()">Delete Permanently</button>
     </div>
   </div>
 </div>
@@ -332,527 +365,575 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--tx);positi
 <div id="toast"></div>
 
 <script>
+// ═══════════════════════════════════════
+// CONFIG
+// ═══════════════════════════════════════
 const SB_URL  = 'https://iujczachrpbziazydmhc.supabase.co';
 const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml1amN6YWNocnBiemlhenlkbWhjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU1NzAxNTEsImV4cCI6MjA5MTE0NjE1MX0.5G5l1IbhAQ73gdHZJ57W_QGMHJgdIPsp1cV2B2Kad2E';
+const SESSION_KEY = 'zip_session';
 
-// ── SUPABASE HELPER (robust - handles empty responses) ──
-async function sbReq(method, path, body) {
-  const opts = {
-    method: method,
-    headers: {
-      'apikey': SB_ANON,
-      'Authorization': 'Bearer ' + SB_ANON,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=representation'
-    }
-  };
-  if (body !== null && body !== undefined) {
-    opts.body = JSON.stringify(body);
-  }
-  const res = await fetch(SB_URL + '/rest/v1/' + path, opts);
-  const txt = await res.text();
-  if (!res.ok) {
-    let msg = 'Server error (' + res.status + ')';
-    try { const e = JSON.parse(txt); msg = e.message || e.details || e.hint || msg; } catch(x) {}
-    throw new Error(msg);
-  }
-  if (!txt || txt.trim() === '') return [];
-  try { return JSON.parse(txt); } catch(x) { return []; }
+// ═══════════════════════════════════════
+// DB HELPER
+// ═══════════════════════════════════════
+async function dbFetch(method, table, query, body) {
+  const url = SB_URL+'/rest/v1/'+table+(query?'?'+query:'');
+  const opt = {method, headers:{'apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON,'Content-Type':'application/json','Prefer':'return=representation'}};
+  if (body!=null) opt.body = JSON.stringify(body);
+  const r = await fetch(url, opt);
+  const t = await r.text();
+  if (!r.ok) { let m='Error '+r.status; try{const e=JSON.parse(t);m=e.message||e.details||m;}catch(x){} throw new Error(m); }
+  if (!t||!t.trim()) return [];
+  try{return JSON.parse(t);}catch(x){return [];}
 }
-function sbGet(table, q)    { return sbReq('GET',   table + '?' + (q||''), null); }
-function sbPost(table, d)   { return sbReq('POST',  table, d); }
-function sbPatch(table, q, d){ return sbReq('PATCH', table + '?' + q, d); }
-async function sbRpc(fn, body) {
-  try {
-    const res = await fetch(SB_URL + '/rest/v1/rpc/' + fn, {
-      method: 'POST',
-      headers: { 'apikey': SB_ANON, 'Authorization': 'Bearer ' + SB_ANON, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-    const txt = await res.text();
-    if (!txt || txt.trim() === '') return null;
-    return JSON.parse(txt);
-  } catch(x) { return null; }
-}
-
-// ── CRYPTO ──
-async function sha256(str) {
-  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
-}
-async function hashUser(u) { return sha256('ZIP_USER_' + u.toLowerCase().trim()); }
-async function hashPass(p, salt) { return sha256('ZIP_PASS_' + salt + '_' + p); }
-function genSalt() { return Array.from(crypto.getRandomValues(new Uint8Array(8))).map(b => b.toString(16).padStart(2,'0')).join(''); }
-function gen2fa()  { const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; let s=''; for(let i=0;i<8;i++) s+=c[Math.floor(Math.random()*c.length)]; return s; }
-
-// ── STATE ──
-let CU=null, authMode='in', selDiff='easy';
-let puzzle=null, path=[], isDrag=false;
-let timerInt=null, startTime=0, gameActive=false, hintCD=false, needs2fa=false;
-
-const DIFF = {
-  easy:   {dots:[8,9],   walls:3,  mult:1, label:'EASY'},
-  medium: {dots:[11,13], walls:8,  mult:2, label:'MEDIUM'},
-  hard:   {dots:[15,20], walls:14, mult:3, label:'HARD'}
+const DB = {
+  get:    (t,q)   => dbFetch('GET',   t,q,   null),
+  post:   (t,b)   => dbFetch('POST',  t,null, b),
+  patch:  (t,q,b) => dbFetch('PATCH', t,q,   b),
+  del:    (t,q)   => dbFetch('DELETE',t,q,   null)
 };
-const N=7;
-const CS = () => parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cell'));
+async function rpc(fn,body){try{const r=await fetch(SB_URL+'/rest/v1/rpc/'+fn,{method:'POST',headers:{'apikey':SB_ANON,'Authorization':'Bearer '+SB_ANON,'Content-Type':'application/json'},body:JSON.stringify(body)});const t=await r.text();if(!t||!t.trim())return null;return JSON.parse(t);}catch(x){return null;}}
 
-// ── SCREENS ──
-function show(id) {
-  document.querySelectorAll('.scr').forEach(s => s.classList.remove('on'));
-  document.getElementById(id).classList.add('on');
-  document.getElementById('BN').classList.toggle('on', ['L','P','R'].includes(id));
+// ═══════════════════════════════════════
+// CRYPTO
+// ═══════════════════════════════════════
+async function sha256(s){const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(s));return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');}
+const hUser=u=>sha256('ZU_'+u.toLowerCase().trim());
+const hPass=(p,s)=>sha256('ZP_'+s+'_'+p);
+const gSalt=()=>Array.from(crypto.getRandomValues(new Uint8Array(8))).map(b=>b.toString(16).padStart(2,'0')).join('');
+const g2fa=()=>{const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<8;i++)s+=c[Math.floor(Math.random()*c.length)];return s;};
+
+// ═══════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════
+let CU=null, MODE='in', DIFF='easy';
+let PZL=null, PATH=[], DRAG=false;
+let TINT=null, T0=0, ACTIVE=false, HCD=false, N2FA=false;
+let hintTimer=null, hintCooldownEnd=0;
+
+const DCFG = {
+  // Easy: wide, short paths — solvable for everyone
+  easy:   {dotMin:8, dotMax:9,  wallMin:1,wallMax:3,  mult:1,  label:'EASY',   pathLen:0.55},
+  // Medium: moderate challenge
+  medium: {dotMin:11,dotMax:13, wallMin:5,wallMax:8,  mult:2,  label:'MEDIUM', pathLen:0.72},
+  // Hard: challenging but still solvable — NOT impossible
+  hard:   {dotMin:15,dotMax:17, wallMin:8,wallMax:12, mult:3,  label:'HARD',   pathLen:0.88},
+};
+const SZ=7;
+
+// ═══════════════════════════════════════
+// SESSION PERSISTENCE
+// ═══════════════════════════════════════
+function saveSession(u){try{sessionStorage.setItem(SESSION_KEY,JSON.stringify(u));}catch(x){}}
+function loadSession(){try{const s=sessionStorage.getItem(SESSION_KEY);return s?JSON.parse(s):null;}catch(x){return null;}}
+function clearSession(){try{sessionStorage.removeItem(SESSION_KEY);}catch(x){}}
+
+// ═══════════════════════════════════════
+// SCREENS
+// ═══════════════════════════════════════
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.remove('on'));document.getElementById(id).classList.add('on');document.getElementById('BN').classList.toggle('on',id!=='SA');}
+function nav(dest){
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('on'));
+  if(dest==='lobby'){document.getElementById('NP').classList.add('on');openLobby();}
+  else if(dest==='prof'){document.getElementById('NM').classList.add('on');loadProfile().then(()=>show('SP'));}
+  else if(dest==='ranks'){document.getElementById('NR').classList.add('on');loadLb().then(()=>show('SR'));}
 }
-function nav(dest) {
-  document.querySelectorAll('.nb').forEach(b => b.classList.remove('on'));
-  if (dest==='lobby')      { document.getElementById('nb_p').classList.add('on'); openLobby(); }
-  else if (dest==='prof')  { document.getElementById('nb_m').classList.add('on'); loadProfile(); show('P'); }
-  else if (dest==='ranks') { document.getElementById('nb_r').classList.add('on'); loadLb(); show('R'); }
-}
-function openLobby() {
-  const c = CU ? CU.credits : 0;
-  document.getElementById('lc').textContent = c;
-  document.getElementById('nc').style.display = c <= 0 ? 'block' : 'none';
-  document.getElementById('dw').style.display = c <= 0 ? 'none' : 'block';
-  show('L');
+function openLobby(){const c=CU?(CU.credits||0):0;document.getElementById('LC').textContent=c;document.getElementById('NC').style.display=c<=0?'block':'none';document.getElementById('DW').style.display=c<=0?'none':'block';show('SL');}
+
+// ═══════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════
+function setMode(m){
+  MODE=m;
+  document.getElementById('t_in').classList.toggle('on',m==='in');
+  document.getElementById('t_up').classList.toggle('on',m==='up');
+  document.getElementById('abtn').textContent=m==='in'?'Sign In':'Create Account';
+  document.getElementById('asw').innerHTML=m==='in'
+    ?'No account? <a style="color:var(--cy);cursor:pointer;font-weight:800" onclick="setMode(\'up\')">Register free</a>'
+    :'Have account? <a style="color:var(--cy);cursor:pointer;font-weight:800" onclick="setMode(\'in\')">Sign In</a>';
+  document.getElementById('f2').style.display='none';N2FA=false;setMsg('amsg','','');
 }
 
-// ── AUTH ──
-function setMode(m) {
-  authMode = m;
-  document.getElementById('t_in').classList.toggle('on', m==='in');
-  document.getElementById('t_up').classList.toggle('on', m==='up');
-  document.getElementById('abtn').textContent = m==='in' ? 'Sign In' : 'Create Account';
-  document.getElementById('asw').innerHTML = m==='in'
-    ? 'No account? <a style="color:var(--cy);cursor:pointer;font-weight:800" onclick="setMode(\'up\')">Register free</a>'
-    : 'Have account? <a style="color:var(--cy);cursor:pointer;font-weight:800" onclick="setMode(\'in\')">Sign In</a>';
-  document.getElementById('f2').style.display = 'none';
-  needs2fa = false;
-  setMsg('amsg','','');
-}
-
-async function doAuth() {
-  const username = document.getElementById('iu').value.trim();
-  const password = document.getElementById('ip').value;
-  const code2fa  = document.getElementById('i2').value.trim().toUpperCase();
-  if (!username || !password) { setMsg('amsg','Fill in all fields','e'); return; }
-  if (username.length < 3)    { setMsg('amsg','Username must be at least 3 characters','e'); return; }
-  const btn = document.getElementById('abtn');
-  btn.disabled = true;
-  try {
-    const uHash = await hashUser(username);
-    if (authMode === 'up') {
-      // ── REGISTER ──
+async function doAuth(){
+  const usr=document.getElementById('iu').value.trim();
+  const pwd=document.getElementById('ip').value;
+  const otp=document.getElementById('i2').value.trim().toUpperCase();
+  if(!usr||!pwd){setMsg('amsg','Fill in all fields','e');return;}
+  if(usr.length<3){setMsg('amsg','Username must be 3+ characters','e');return;}
+  const btn=document.getElementById('abtn');btn.disabled=true;
+  try{
+    const uh=await hUser(usr);
+    if(MODE==='up'){
       setMsg('amsg','Checking username...','i');
-      const ex = await sbGet('zip_users', 'username_hash=eq.' + uHash + '&select=id');
-      if (ex.length > 0) {
-        setMsg('amsg','Username already taken — try another','e');
-        btn.disabled = false;
-        return;
-      }
-      const salt  = genSalt();
-      const pHash = await hashPass(password, salt);
-      setMsg('amsg','Creating your account...','i');
-      const newUser = {
-        username_hash: uHash,
-        display_name:  username,
-        password_hash: pHash,
-        salt:          salt,
-        credits:       2,
-        score:         0,
-        total_games:   0,
-        two_fa_enabled: false,
-        two_fa_code:   '',
-        games:         []
-      };
-      const rows = await sbPost('zip_users', newUser);
-      // rows may be [] if Prefer header ignored — fetch user again
-      let userData;
-      if (rows && rows.length > 0) {
-        userData = rows[0];
-      } else {
-        const refetch = await sbGet('zip_users', 'username_hash=eq.' + uHash + '&select=*');
-        if (!refetch.length) throw new Error('Account created but could not load it. Please sign in.');
-        userData = refetch[0];
-      }
-      CU = mapUser(userData);
-      // update global counter (ignore errors)
-      sbRpc('increment_stat', {key_name:'total_users', amount:1}).catch(()=>{});
-      afterLogin();
-    } else {
-      // ── LOGIN ──
+      const ex=await DB.get('zip_users','username_hash=eq.'+uh+'&select=id');
+      if(ex.length){setMsg('amsg','Username taken — try another','e');btn.disabled=false;return;}
+      const salt=gSalt(), ph=await hPass(pwd,salt);
+      setMsg('amsg','Creating account...','i');
+      let rows=await DB.post('zip_users',{username_hash:uh,display_name:usr,password_hash:ph,salt,credits:2,score:0,total_games:0,two_fa_enabled:false,two_fa_code:'',games:[]});
+      if(!rows||!rows.length) rows=await DB.get('zip_users','username_hash=eq.'+uh+'&select=*');
+      if(!rows||!rows.length) throw new Error('Account created — please sign in.');
+      CU=mu(rows[0]);saveSession(CU);rpc('increment_stat',{key_name:'total_users',amount:1});afterLogin();
+    }else{
       setMsg('amsg','Signing in...','i');
-      const rows = await sbGet('zip_users', 'username_hash=eq.' + uHash + '&select=*');
-      if (!rows.length) { setMsg('amsg','Wrong username or password','e'); btn.disabled=false; return; }
-      const u = rows[0];
-      const pHash = await hashPass(password, u.salt);
-      if (pHash !== u.password_hash) { setMsg('amsg','Wrong username or password','e'); btn.disabled=false; return; }
-      // 2FA check
-      if (u.two_fa_enabled && u.two_fa_code) {
-        if (!needs2fa) {
-          needs2fa = true;
-          document.getElementById('f2').style.display = 'block';
-          setMsg('amsg','Enter your 2-step verification code','i');
-          btn.disabled = false;
-          return;
-        }
-        if (code2fa !== u.two_fa_code) { setMsg('amsg','Wrong 2FA code','e'); btn.disabled=false; return; }
+      const rows=await DB.get('zip_users','username_hash=eq.'+uh+'&select=*');
+      if(!rows.length){setMsg('amsg','Wrong username or password','e');btn.disabled=false;return;}
+      const u=rows[0];
+      const ph=await hPass(pwd,u.salt);
+      if(ph!==u.password_hash){setMsg('amsg','Wrong username or password','e');btn.disabled=false;return;}
+      if(u.two_fa_enabled&&u.two_fa_code){
+        if(!N2FA){N2FA=true;document.getElementById('f2').style.display='block';setMsg('amsg','Enter your 2-step code','i');btn.disabled=false;return;}
+        if(otp!==u.two_fa_code){setMsg('amsg','Wrong 2FA code','e');btn.disabled=false;return;}
       }
-      CU = mapUser(u);
-      afterLogin();
+      CU=mu(u);saveSession(CU);afterLogin();
     }
-  } catch(e) {
-    setMsg('amsg', e.message || 'Something went wrong. Please try again.', 'e');
-  }
-  btn.disabled = false;
+  }catch(e){setMsg('amsg',e.message||'Something went wrong','e');}
+  btn.disabled=false;
 }
 
-function mapUser(u) {
-  return {
-    id:             u.id,
-    display_name:   u.display_name,
-    credits:        u.credits  || 0,
-    score:          u.score    || 0,
-    total_games:    u.total_games || 0,
-    two_fa_enabled: u.two_fa_enabled || false,
-    two_fa_code:    u.two_fa_code    || '',
-    games:          u.games    || []
-  };
+function mu(u){return{id:u.id,display_name:u.display_name,credits:u.credits||0,score:u.score||0,total_games:u.total_games||0,two_fa_enabled:u.two_fa_enabled||false,two_fa_code:u.two_fa_code||'',games:u.games||[]};}
+function afterLogin(){document.getElementById('NP').classList.add('on');openLobby();}
+
+function confirmLogout(){if(CU&&CU.two_fa_enabled){document.getElementById('L2I').value='';setMsg('L2M','','');openOl('OL2');}else openOl('OL');}
+function v2faLogout(){if(document.getElementById('L2I').value.trim().toUpperCase()!==CU.two_fa_code){setMsg('L2M','Wrong code','e');return;}closeOl('OL2');doLogout();}
+function doLogout(){closeOl('OL');CU=null;stopTimer();ACTIVE=false;clearSession();document.getElementById('BN').classList.remove('on');document.getElementById('iu').value='';document.getElementById('ip').value='';document.getElementById('i2').value='';document.getElementById('f2').style.display='none';N2FA=false;setMode('in');show('SA');}
+
+// ═══════════════════════════════════════
+// DELETE ACCOUNT
+// ═══════════════════════════════════════
+async function deleteAccount(){
+  const conf=document.getElementById('DAI').value.trim().toUpperCase();
+  if(conf!=='DELETE'){setMsg('DAM','Type DELETE to confirm','e');return;}
+  const btn=document.querySelector('#ODA .brd');btn.disabled=true;
+  try{
+    setMsg('DAM','Deleting account...','i');
+    await DB.del('zip_users','id=eq.'+CU.id);
+    closeOl('ODA');
+    toast('Account deleted.');
+    setTimeout(()=>doLogout(),800);
+  }catch(e){setMsg('DAM','Error: '+e.message,'e');btn.disabled=false;}
 }
 
-function afterLogin() {
-  document.getElementById('nb_p').classList.add('on');
-  openLobby();
+// ═══════════════════════════════════════
+// 2FA
+// ═══════════════════════════════════════
+async function toggle2fa(){if(!CU)return;const v=!CU.two_fa_enabled;let c=CU.two_fa_code;if(v&&!c)c=g2fa();try{await DB.patch('zip_users','id=eq.'+CU.id,{two_fa_enabled:v,two_fa_code:c});CU.two_fa_enabled=v;CU.two_fa_code=c;saveSession(CU);r2fa();toast(v?'2FA Enabled!':'2FA Disabled');}catch(e){toast('Error: '+e.message);}}
+function r2fa(){document.getElementById('T2T').classList.toggle('on',!!CU.two_fa_enabled);document.getElementById('T2C').textContent=CU.two_fa_code||'-';document.getElementById('T2B').style.display=CU.two_fa_enabled?'block':'none';}
+
+// ═══════════════════════════════════════
+// REDEEM CODE
+// ═══════════════════════════════════════
+async function redeemCode(){
+  const raw=document.getElementById('CI').value.replace(/[^A-Z0-9]/gi,'').toUpperCase();
+  if(raw.length!==8){setMsg('CM','Code must be 8 characters','e');return;}
+  try{
+    setMsg('CM','Checking...','i');
+    const codes=await DB.get('zip_codes','raw_code=eq.'+raw+'&select=*');
+    if(!codes.length){setMsg('CM','Code not found','e');return;}
+    const cd=codes[0];
+    if(!cd.active){setMsg('CM','Code deactivated','e');return;}
+    if(cd.max_uses>0&&cd.uses>=cd.max_uses){setMsg('CM','Code fully used up','e');return;}
+    const ub=cd.used_by||[];
+    if(ub.includes(CU.id)){setMsg('CM','You already used this code','e');return;}
+    ub.push(CU.id);
+    await DB.patch('zip_codes','id=eq.'+cd.id,{uses:cd.uses+1,used_by:ub});
+    const nc=(CU.credits||0)+cd.credits;
+    await DB.patch('zip_users','id=eq.'+CU.id,{credits:nc});
+    CU.credits=nc;saveSession(CU);
+    setMsg('CM','+'+cd.credits+' credits added!','s');
+    setTimeout(()=>{closeOl('OC');openLobby();},1000);
+  }catch(e){setMsg('CM',e.message,'e');}
 }
 
-function confirmLogout() {
-  if (CU && CU.two_fa_enabled) {
-    document.getElementById('lo2i').value = '';
-    setMsg('lo2m','','');
-    openOl('ol_lo2');
-  } else {
-    openOl('ol_lo');
-  }
-}
-function verify2faLogout() {
-  const c = document.getElementById('lo2i').value.trim().toUpperCase();
-  if (c !== CU.two_fa_code) { setMsg('lo2m','Wrong code','e'); return; }
-  closeOl('ol_lo2'); doLogout();
-}
-function doLogout() {
-  closeOl('ol_lo'); CU=null; stopTimer(); gameActive=false;
-  document.getElementById('BN').classList.remove('on');
-  document.getElementById('iu').value=''; document.getElementById('ip').value='';
-  document.getElementById('i2').value=''; document.getElementById('f2').style.display='none';
-  needs2fa=false; setMode('in'); show('A');
-}
+// ═══════════════════════════════════════
+// DIFFICULTY
+// ═══════════════════════════════════════
+function pickD(d,el){DIFF=d;document.querySelectorAll('.dc').forEach(c=>c.classList.remove('on'));el.classList.add('on');}
 
-// ── 2FA ──
-async function toggle2fa() {
-  if (!CU) return;
-  const newVal = !CU.two_fa_enabled;
-  let code = CU.two_fa_code;
-  if (newVal && !code) code = gen2fa();
-  try {
-    await sbPatch('zip_users', 'id=eq.'+CU.id, {two_fa_enabled:newVal, two_fa_code:code});
-    CU.two_fa_enabled = newVal;
-    CU.two_fa_code    = code;
-    render2fa();
-    toast(newVal ? '2FA Enabled! Save your code.' : '2FA Disabled');
-  } catch(e) { toast('Error: ' + e.message); }
-}
-function render2fa() {
-  document.getElementById('t2tog').classList.toggle('on', !!CU.two_fa_enabled);
-  document.getElementById('t2code').textContent = CU.two_fa_code || '-';
-  document.getElementById('t2box').style.display = CU.two_fa_enabled ? 'block' : 'none';
-}
-
-// ── REDEEM CODE ──
-async function redeemCode() {
-  const raw = document.getElementById('ci').value.replace(/[^A-Z0-9]/gi,'').toUpperCase();
-  if (raw.length !== 8) { setMsg('cmsg','Code must be 8 characters','e'); return; }
-  try {
-    setMsg('cmsg','Checking...','i');
-    const codes = await sbGet('zip_codes', 'raw_code=eq.'+raw+'&select=*');
-    if (!codes.length)                          { setMsg('cmsg','Code not found','e'); return; }
-    const cd = codes[0];
-    if (!cd.active)                             { setMsg('cmsg','Code has been deactivated','e'); return; }
-    if (cd.max_uses>0 && cd.uses>=cd.max_uses)  { setMsg('cmsg','Code is fully used up','e'); return; }
-    const usedBy = cd.used_by || [];
-    if (usedBy.includes(CU.id))                { setMsg('cmsg','You already used this code','e'); return; }
-    usedBy.push(CU.id);
-    await sbPatch('zip_codes', 'id=eq.'+cd.id, {uses: cd.uses+1, used_by: usedBy});
-    const newC = (CU.credits||0) + cd.credits;
-    await sbPatch('zip_users', 'id=eq.'+CU.id, {credits: newC});
-    CU.credits = newC;
-    setMsg('cmsg', '+' + cd.credits + ' credits added!', 's');
-    setTimeout(() => { closeOl('ol_code'); openLobby(); }, 1000);
-  } catch(e) { setMsg('cmsg', e.message, 'e'); }
-}
-
-// ── DIFFICULTY ──
-function pickD(d, el) {
-  selDiff = d;
-  document.querySelectorAll('.dc').forEach(c => c.classList.remove('on'));
-  el.classList.add('on');
-  const clr = {easy:'var(--gn)', medium:'var(--yw)', hard:'var(--pk)'};
-  ['e','m','h'].forEach(k => document.getElementById('dr_'+k).style.background='');
-  document.getElementById({easy:'dr_e',medium:'dr_m',hard:'dr_h'}[d]).style.background = clr[d];
-}
-
-// ── GAME LAUNCH ──
-async function doPlay() {
-  if (!CU || CU.credits <= 0) return;
-  const btn = document.getElementById('pbtn');
-  btn.disabled = true;
-  try {
-    const newC = CU.credits - 1;
-    await sbPatch('zip_users', 'id=eq.'+CU.id, {credits: newC});
-    CU.credits = newC;
-    sbRpc('increment_stat', {key_name:'total_games', amount:1}).catch(()=>{});
+// ═══════════════════════════════════════
+// PLAY
+// ═══════════════════════════════════════
+async function doPlay(){
+  if(!CU||CU.credits<=0)return;
+  const btn=document.getElementById('PB');btn.disabled=true;
+  try{
+    const nc=CU.credits-1;
+    await DB.patch('zip_users','id=eq.'+CU.id,{credits:nc});
+    CU.credits=nc;saveSession(CU);
+    rpc('increment_stat',{key_name:'total_games',amount:1});
     startGame();
-  } catch(e) {
-    toast('Error: ' + e.message);
-    btn.disabled = false;
-  }
+  }catch(e){toast('Error: '+e.message);btn.disabled=false;}
 }
 
-function startGame() {
-  puzzle = genPuzzle(selDiff);
-  path   = [puzzle.dots[0]];
-  gameActive=true; hintCD=false;
-  const pill = document.getElementById('dpill');
-  pill.textContent  = DIFF[selDiff].label;
-  pill.className    = 'dpill ' + {easy:'pe',medium:'pm',hard:'ph'}[selDiff];
-  document.getElementById('hbox').textContent = 'Connect the dots in order — fill every cell!';
-  document.getElementById('hbox').classList.remove('lit');
-  document.getElementById('hintbtn').className = 'btn bsm';
-  show('G'); renderGrid(); resetTimer(); startTimer();
-  document.getElementById('pbtn').disabled = false;
+function startGame(){
+  PZL=genPuzzle(DIFF);
+  PATH=[PZL.dots[0]];
+  ACTIVE=true;HCD=false;hintCooldownEnd=0;
+  clearInterval(hintTimer);
+  document.getElementById('HCD').textContent='';
+  const pill=document.getElementById('DP');
+  pill.textContent=DCFG[DIFF].label;
+  pill.className='dpill '+{easy:'pe',medium:'pm',hard:'ph'}[DIFF];
+  document.getElementById('HBX').textContent='Connect dots 1 → 2 → 3 in order — fill every cell!';
+  document.getElementById('HBX').classList.remove('lit');
+  document.getElementById('HB').className='btn bsm';
+  show('SG');buildGrid();resetTimer();startTimer();
+  document.getElementById('PB').disabled=false;
 }
 
-// ── PUZZLE GENERATION ──
-function genPuzzle(diff) {
-  const cfg=DIFF[diff], total=N*N;
-  const hp = buildHam();
-  const dc = cfg.dots[0] + Math.floor(Math.random()*(cfg.dots[1]-cfg.dots[0]+1));
-  const step = Math.floor(total/dc);
-  const dots = [];
-  for (let i=0;i<dc;i++) dots.push(hp[Math.min(i*step, total-1)]);
+// ═══════════════════════════════════════
+// PUZZLE GENERATION — TUNED DIFFICULTIES
+// ═══════════════════════════════════════
+function genPuzzle(diff){
+  const cfg=DCFG[diff], total=SZ*SZ;
+  // Generate a good Hamiltonian path
+  const hp=makeHamPath();
+
+  // Pick dot count
+  const dc=cfg.dotMin+Math.floor(Math.random()*(cfg.dotMax-cfg.dotMin+1));
+  // Evenly space dots along the path
+  const dots=[];
+  const step=Math.floor(total/dc);
+  for(let i=0;i<dc;i++) dots.push(hp[Math.min(i*step,total-1)]);
   dots[0]=hp[0]; dots[dc-1]=hp[total-1];
-  const walls=[]; let att=0;
-  while (walls.length<cfg.walls && att++<300) {
-    const r=Math.floor(Math.random()*(N-1)), c=Math.floor(Math.random()*N), t=Math.random()<.5?'r':'b';
-    if (!walls.find(w=>w.r===r&&w.c===c&&w.t===t)) walls.push({r,c,t});
-  }
-  return {hp, dots, walls};
-}
-function buildHam() {
-  const total=N*N, vis=new Array(total).fill(false), res=[];
-  const sh = a => { for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; };
-  const nb = c => {
-    const r=Math.floor(c/N), col=c%N, ns=[];
-    if(r>0)   ns.push((r-1)*N+col); if(r<N-1) ns.push((r+1)*N+col);
-    if(col>0) ns.push(r*N+col-1);   if(col<N-1) ns.push(r*N+col+1);
-    return ns.filter(n=>!vis[n]);
-  };
-  vis[0]=true; res.push(0);
-  function dfs(c){if(res.length===total)return true;for(const n of sh(nb(c))){vis[n]=true;res.push(n);if(dfs(n))return true;vis[n]=false;res.pop();}return false;}
-  if(!dfs(0)){for(let i=0;i<total;i++)if(!vis[i]){res.push(i);vis[i]=true;}}
-  return res;
-}
 
-// ── GRID ──
-function renderGrid() {
-  const grid=document.getElementById('grid'); grid.innerHTML='';
-  const cs=CS(), nm={};
-  puzzle.dots.forEach((c,i) => nm[c]=i+1);
-  for(let r=0;r<N;r++){
-    for(let c=0;c<N;c++){
-      const idx=r*N+c;
-      const cell=document.createElement('div');
-      cell.className='cell'; cell.dataset.idx=idx;
-      if(puzzle.walls.find(w=>w.r===r&&w.c===c&&w.t==='r')) cell.classList.add('wr');
-      if(puzzle.walls.find(w=>w.r===r&&w.c===c&&w.t==='b')) cell.classList.add('wb');
-      if(nm[idx]){const d=document.createElement('div');d.className='ndot';d.textContent=nm[idx];cell.appendChild(d);}
-      grid.appendChild(cell);
+  // Walls — never block the solution path
+  const pathEdges=new Set();
+  for(let i=0;i<hp.length-1;i++){
+    const a=hp[i],b=hp[i+1];
+    const ra=Math.floor(a/SZ),ca=a%SZ,rb=Math.floor(b/SZ),cb=b%SZ;
+    if(ra===rb) pathEdges.add(ra+'_'+Math.min(ca,cb)+'_r');
+    else        pathEdges.add(Math.min(ra,rb)+'_'+ca+'_b');
+  }
+  // Also protect edges near numbered dots
+  const dotSet=new Set(dots);
+  const wallCount=cfg.wallMin+Math.floor(Math.random()*(cfg.wallMax-cfg.wallMin+1));
+  const walls=[];let att=0;
+  while(walls.length<wallCount&&att++<600){
+    const r=Math.floor(Math.random()*(SZ-1));
+    const c=Math.floor(Math.random()*SZ);
+    const t=Math.random()<.5?'r':'b';
+    const key=r+'_'+c+'_'+t;
+    const cellA=r*SZ+c, cellB=t==='r'?r*SZ+(c+1):(r+1)*SZ+c;
+    if(!pathEdges.has(key)&&!dotSet.has(cellA)&&!dotSet.has(cellB)&&!walls.find(w=>w.r===r&&w.c===c&&w.t===t)){
+      walls.push({r,c,t});
     }
   }
-  const svg=document.getElementById('psvg');
-  svg.setAttribute('width',N*cs); svg.setAttribute('height',N*cs);
-  svg.style.width=N*cs+'px'; svg.style.height=N*cs+'px';
-  drawPath();
-  grid.onmousedown = e=>{isDrag=true;const i=gi(e.target);if(i!==null)tryMove(i);};
-  grid.onmouseover = e=>{if(!isDrag)return;const i=gi(e.target);if(i!==null)tryMove(i);};
-  document.onmouseup = ()=>isDrag=false;
-  grid.ontouchstart = e=>{e.preventDefault();isDrag=true;const i=ti(e.touches[0]);if(i!==null)tryMove(i);};
-  grid.ontouchmove  = e=>{e.preventDefault();if(!isDrag)return;const i=ti(e.touches[0]);if(i!==null)tryMove(i);};
-  grid.ontouchend   = ()=>isDrag=false;
+  return {hp,dots,walls};
 }
-function gi(el){const c=el.closest('[data-idx]');return c?parseInt(c.dataset.idx):null;}
-function ti(t){const el=document.elementFromPoint(t.clientX,t.clientY);return el?gi(el):null;}
+
+// Warnsdorff iterative — fast, no recursion, produces a valid Hamiltonian path
+function makeHamPath(){
+  const total=SZ*SZ;
+  const vis=new Uint8Array(total);
+
+  function nbFree(c){
+    const r=Math.floor(c/SZ),col=c%SZ,ns=[];
+    if(r>0)    ns.push((r-1)*SZ+col);
+    if(r<SZ-1) ns.push((r+1)*SZ+col);
+    if(col>0)  ns.push(r*SZ+col-1);
+    if(col<SZ-1) ns.push(r*SZ+col+1);
+    return ns.filter(n=>!vis[n]);
+  }
+
+  // Try several starts, keep the best (longest) path
+  let best=[];
+  const tryStarts=[0,SZ-1,(SZ-1)*SZ,SZ*SZ-1,Math.floor(SZ/2)*SZ+Math.floor(SZ/2)];
+  for(let s=0;s<6;s++) tryStarts.push(Math.floor(Math.random()*total));
+
+  for(const start of tryStarts){
+    vis.fill(0);
+    const p=[start]; vis[start]=1;
+    let cur=start;
+    for(let step=1;step<total;step++){
+      const nbs=nbFree(cur);
+      if(!nbs.length) break;
+      // Warnsdorff: pick neighbor with fewest onward moves (+ small random tiebreak)
+      nbs.sort((a,b)=>nbFree(a).length-nbFree(b).length);
+      const minDeg=nbFree(nbs[0]).length;
+      const tied=nbs.filter(n=>nbFree(n).length<=minDeg+1);
+      const next=tied[Math.floor(Math.random()*Math.min(tied.length,2))];
+      vis[next]=1; p.push(next); cur=next;
+    }
+    if(p.length===total){best=p;break;}
+    if(p.length>best.length) best=p;
+  }
+  // Fill any remaining unvisited cells (safety net)
+  if(best.length<total){
+    vis.fill(0);best.forEach(c=>vis[c]=1);
+    for(let i=0;i<total;i++) if(!vis[i]) best.push(i);
+  }
+  return best;
+}
+
+// ═══════════════════════════════════════
+// GRID
+// ═══════════════════════════════════════
+function CS(){return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--cell'));}
+
+function buildGrid(){
+  const gd=document.getElementById('GD');gd.innerHTML='';
+  const cs=CS(),nm={};
+  PZL.dots.forEach((c,i)=>nm[c]=i+1);
+  for(let r=0;r<SZ;r++){
+    for(let c=0;c<SZ;c++){
+      const idx=r*SZ+c,cell=document.createElement('div');
+      cell.className='cell';cell.dataset.idx=idx;
+      if(PZL.walls.find(w=>w.r===r&&w.c===c&&w.t==='r')) cell.classList.add('wr');
+      if(PZL.walls.find(w=>w.r===r&&w.c===c&&w.t==='b')) cell.classList.add('wb');
+      if(nm[idx]){const d=document.createElement('div');d.className='ndot';d.textContent=nm[idx];cell.appendChild(d);}
+      gd.appendChild(cell);
+    }
+  }
+  const svg=document.getElementById('PS');
+  svg.setAttribute('width',SZ*cs);svg.setAttribute('height',SZ*cs);
+  svg.style.width=SZ*cs+'px';svg.style.height=SZ*cs+'px';
+  drawPath();
+  gd.onmousedown=e=>{DRAG=true;const i=cIdx(e.target);if(i!==null)tryMove(i);};
+  gd.onmouseover=e=>{if(!DRAG)return;const i=cIdx(e.target);if(i!==null)tryMove(i);};
+  document.addEventListener('mouseup',()=>DRAG=false);
+  gd.ontouchstart=e=>{e.preventDefault();DRAG=true;const i=tIdx(e.touches[0]);if(i!==null)tryMove(i);};
+  gd.ontouchmove=e=>{e.preventDefault();if(!DRAG)return;const i=tIdx(e.touches[0]);if(i!==null)tryMove(i);};
+  gd.ontouchend=()=>DRAG=false;
+}
+function cIdx(el){const c=el.closest('[data-idx]');return c?parseInt(c.dataset.idx):null;}
+function tIdx(t){const el=document.elementFromPoint(t.clientX,t.clientY);return el?cIdx(el):null;}
+
+// GRADIENT PATH — colours shift from blue → cyan → green → yellow → orange → pink as path grows
+function pathColor(i, total){
+  const t=total<=1?0:i/(total-1);
+  // 0=blue, 0.25=cyan, 0.5=green, 0.75=yellow, 1=pink
+  const stops=[
+    [0,  119,255],  // blue
+    [0,  229,255],  // cyan
+    [0,  255,136],  // green
+    [255,224,0  ],  // yellow
+    [255,107,0  ],  // orange
+    [255,31, 109],  // pink
+  ];
+  const seg=(stops.length-1)*t;
+  const lo=Math.floor(seg), hi=Math.min(lo+1,stops.length-1);
+  const f=seg-lo;
+  const r=Math.round(stops[lo][0]+(stops[hi][0]-stops[lo][0])*f);
+  const g=Math.round(stops[lo][1]+(stops[hi][1]-stops[lo][1])*f);
+  const b=Math.round(stops[lo][2]+(stops[hi][2]-stops[lo][2])*f);
+  return 'rgb('+r+','+g+','+b+')';
+}
 
 function drawPath(){
-  const svg=document.getElementById('psvg'); svg.innerHTML='';
-  if(path.length<2) return;
-  const cs=CS();
-  const col={easy:'#00ff88',medium:'#ffe000',hard:'#ff1f6d'}[selDiff];
-  const pts=path.map(c=>{const r=Math.floor(c/N),cc=c%N;return(cc*cs+cs/2)+','+(r*cs+cs/2);}).join(' ');
-  const poly=document.createElementNS('http://www.w3.org/2000/svg','polyline');
-  poly.setAttribute('points',pts); poly.setAttribute('stroke',col);
-  poly.setAttribute('stroke-width',Math.max(cs*.34,11));
-  poly.setAttribute('stroke-linecap','round'); poly.setAttribute('stroke-linejoin','round');
-  poly.setAttribute('fill','none'); poly.setAttribute('opacity','.52');
-  svg.appendChild(poly);
-  const last=path[path.length-1],lr=Math.floor(last/N),lc=last%N;
+  const svg=document.getElementById('PS');svg.innerHTML='';
+  if(PATH.length<2) return;
+  const cs=CS(),n=PATH.length;
+
+  // Draw gradient path as multiple short line segments
+  for(let i=0;i<n-1;i++){
+    const a=PATH[i],b=PATH[i+1];
+    const ar=Math.floor(a/SZ),ac=a%SZ;
+    const br=Math.floor(b/SZ),bc=b%SZ;
+    const x1=ac*cs+cs/2, y1=ar*cs+cs/2;
+    const x2=bc*cs+cs/2, y2=br*cs+cs/2;
+    const col=pathColor(i,n-1);
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',x1);line.setAttribute('y1',y1);
+    line.setAttribute('x2',x2);line.setAttribute('y2',y2);
+    line.setAttribute('stroke',col);
+    line.setAttribute('stroke-width',Math.max(cs*.34,11));
+    line.setAttribute('stroke-linecap','round');
+    line.setAttribute('opacity','.55');
+    svg.appendChild(line);
+  }
+  // Head dot
+  const last=PATH[n-1],lr=Math.floor(last/SZ),lc=last%SZ;
+  const headCol=pathColor(n-1,Math.max(n-1,1));
   const circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  circ.setAttribute('cx',lc*cs+cs/2); circ.setAttribute('cy',lr*cs+cs/2);
-  circ.setAttribute('r',cs*.21); circ.setAttribute('fill',col); circ.setAttribute('opacity','.85');
+  circ.setAttribute('cx',lc*cs+cs/2);circ.setAttribute('cy',lr*cs+cs/2);
+  circ.setAttribute('r',cs*.22);circ.setAttribute('fill',headCol);circ.setAttribute('opacity','.9');
   svg.appendChild(circ);
 }
 
+// ═══════════════════════════════════════
+// SEQUENCE ENFORCEMENT
+// The path must visit numbered dots in order 1,2,3,4...
+// If you try to pass through a later dot before an earlier one, blocked.
+// ═══════════════════════════════════════
 function tryMove(idx){
-  if(!gameActive) return;
-  const last=path[path.length-1];
+  if(!ACTIVE) return;
+  const last=PATH[PATH.length-1];
   if(idx===last) return;
-  if(path.length>=2 && path[path.length-2]===idx){path.pop();drawPath();return;}
-  if(path.includes(idx)) return;
-  const lr=Math.floor(last/N),lc=last%N,nr=Math.floor(idx/N),nc=idx%N;
+  // Backtrack
+  if(PATH.length>=2&&PATH[PATH.length-2]===idx){PATH.pop();drawPath();return;}
+  if(PATH.includes(idx)) return;
+  // Adjacency
+  const lr=Math.floor(last/SZ),lc=last%SZ;
+  const nr=Math.floor(idx/SZ),nc=idx%SZ;
   if(Math.abs(nr-lr)+Math.abs(nc-lc)!==1) return;
-  if(nc-lc=== 1 && puzzle.walls.find(w=>w.r===lr&&w.c===lc&&w.t==='r')) return;
-  if(nc-lc===-1 && puzzle.walls.find(w=>w.r===nr&&w.c===nc&&w.t==='r')) return;
-  if(nr-lr=== 1 && puzzle.walls.find(w=>w.r===lr&&w.c===lc&&w.t==='b')) return;
-  if(nr-lr===-1 && puzzle.walls.find(w=>w.r===nr&&w.c===nc&&w.t==='b')) return;
-  path.push(idx); drawPath(); checkWin();
-}
-function undoStep(){if(gameActive&&path.length>1){path.pop();drawPath();}}
+  // Wall check
+  if(nc-lc=== 1&&PZL.walls.find(w=>w.r===lr&&w.c===lc&&w.t==='r')) return;
+  if(nc-lc===-1&&PZL.walls.find(w=>w.r===nr&&w.c===nc&&w.t==='r')) return;
+  if(nr-lr=== 1&&PZL.walls.find(w=>w.r===lr&&w.c===lc&&w.t==='b')) return;
+  if(nr-lr===-1&&PZL.walls.find(w=>w.r===nr&&w.c===nc&&w.t==='b')) return;
 
-// ── HINT ──
+  // Sequence check — can only enter dot N if dot N-1 is already in path
+  const nm={};PZL.dots.forEach((c,i)=>nm[c]=i+1);
+  if(nm[idx]!==undefined){
+    const dotNum=nm[idx];
+    if(dotNum>1){
+      const prevDot=PZL.dots[dotNum-2]; // dot N-1
+      if(!PATH.includes(prevDot)){
+        // Flash wrong
+        const cells=document.querySelectorAll('.cell');
+        const cell=cells[idx];
+        if(cell){cell.classList.add('wrong-flash');setTimeout(()=>cell.classList.remove('wrong-flash'),400);}
+        document.getElementById('HBX').textContent='Follow the order! Go to dot #'+(dotNum-1)+' first.';
+        document.getElementById('HBX').classList.add('lit');
+        setTimeout(()=>{document.getElementById('HBX').textContent='Connect dots 1 → 2 → 3 in order!';document.getElementById('HBX').classList.remove('lit');},1800);
+        return;
+      }
+    }
+  }
+
+  PATH.push(idx);drawPath();checkWin();
+}
+
+function undoStep(){if(ACTIVE&&PATH.length>1){PATH.pop();drawPath();}}
+
+// ═══════════════════════════════════════
+// HINT — 5s cooldown, shows countdown
+// ═══════════════════════════════════════
 function useHint(){
-  if(!gameActive||hintCD) return;
-  hintCD=true;
-  const btn=document.getElementById('hintbtn'), hb=document.getElementById('hbox');
+  if(!ACTIVE) return;
+  const now=Date.now();
+  if(now<hintCooldownEnd){
+    const left=Math.ceil((hintCooldownEnd-now)/1000);
+    toast('Wait '+left+'s for next hint');
+    return;
+  }
+  // Set cooldown
+  hintCooldownEnd=now+5000;
+  clearInterval(hintTimer);
+  const btn=document.getElementById('HB'),hb=document.getElementById('HBX'),cdEl=document.getElementById('HCD');
   btn.classList.add('lit');
-  const nm={}; puzzle.dots.forEach((c,i)=>nm[c]=i+1);
+  // Find next numbered dot ahead
+  const nm={};PZL.dots.forEach((c,i)=>nm[c]=i+1);
   let txt='Keep going in the right direction!';
-  for(let i=path.length;i<puzzle.hp.length;i++){if(nm[puzzle.hp[i]]){txt='Head toward dot #'+nm[puzzle.hp[i]];break;}}
-  hb.textContent=txt; hb.classList.add('lit');
-  const pos=puzzle.hp.indexOf(path[path.length-1]), nxt=puzzle.hp[pos+1];
+  for(let i=PATH.length;i<PZL.hp.length;i++){if(nm[PZL.hp[i]]){txt='Head toward dot #'+nm[PZL.hp[i]];break;}}
+  hb.textContent=txt;hb.classList.add('lit');
+  // Glow next cell
+  const pos=PZL.hp.indexOf(PATH[PATH.length-1]);
+  const nxt=PZL.hp[pos+1];
   if(nxt!==undefined){
-    const cs=CS(),nr=Math.floor(nxt/N),nc=nxt%N,svg=document.getElementById('psvg');
+    const cs=CS(),nr=Math.floor(nxt/SZ),nc2=nxt%SZ;
+    const svg=document.getElementById('PS');
     const circ=document.createElementNS('http://www.w3.org/2000/svg','circle');
-    circ.setAttribute('cx',nc*cs+cs/2); circ.setAttribute('cy',nr*cs+cs/2);
-    circ.setAttribute('r',cs*.44); circ.setAttribute('fill','rgba(0,229,255,.7)');
+    circ.setAttribute('cx',nc2*cs+cs/2);circ.setAttribute('cy',nr*cs+cs/2);
+    circ.setAttribute('r',cs*.44);circ.setAttribute('fill','rgba(0,229,255,.68)');
     circ.style.animation='hgf 3s ease-out forwards';
     svg.appendChild(circ);
-    setTimeout(()=>{if(circ.parentNode)circ.parentNode.removeChild(circ);},3000);
+    setTimeout(()=>{if(circ.parentNode)circ.parentNode.removeChild(circ);},3100);
   }
   setTimeout(()=>{btn.classList.remove('lit');hb.classList.remove('lit');hb.textContent='Hint used — keep going!';},3000);
-  setTimeout(()=>{hintCD=false;},15000);
+  // Countdown display
+  let cdSec=5;
+  cdEl.textContent='('+cdSec+'s)';
+  hintTimer=setInterval(()=>{
+    cdSec--;
+    if(cdSec<=0){clearInterval(hintTimer);cdEl.textContent='';}
+    else cdEl.textContent='('+cdSec+'s)';
+  },1000);
 }
 
-// ── WIN ──
+// ═══════════════════════════════════════
+// WIN
+// ═══════════════════════════════════════
 function checkWin(){
-  if(path.length!==N*N) return;
-  const ord={}; path.forEach((c,i)=>ord[c]=i);
-  const dots=puzzle.dots;
-  for(let i=0;i<dots.length-1;i++){
-    if(ord[dots[i]]===undefined||ord[dots[i+1]]===undefined) return;
-    if(ord[dots[i]]>=ord[dots[i+1]]) return;
+  if(PATH.length!==SZ*SZ) return;
+  // All dots must appear in order
+  const ord={};PATH.forEach((c,i)=>ord[c]=i);
+  for(let i=0;i<PZL.dots.length-1;i++){
+    if(ord[PZL.dots[i]]===undefined||ord[PZL.dots[i+1]]===undefined) return;
+    if(ord[PZL.dots[i]]>=ord[PZL.dots[i+1]]) return;
   }
   winGame();
 }
+
 async function winGame(){
-  gameActive=false; stopTimer();
-  const elapsed=Math.floor((Date.now()-startTime)/1000);
-  const score=Math.max(10,Math.round((500-elapsed*2)*DIFF[selDiff].mult));
-  animCells(); spawnConfetti();
-  try {
-    const games=[{diff:selDiff,time:elapsed,score,at:Date.now()},...(CU.games||[])].slice(0,50);
-    await sbPatch('zip_users','id=eq.'+CU.id,{
-      score:       (CU.score||0)+score,
-      total_games: (CU.total_games||0)+1,
-      games:       games
-    });
-    CU.score=(CU.score||0)+score; CU.total_games=(CU.total_games||0)+1; CU.games=games;
-  } catch(e){}
-  setTimeout(()=>{
-    document.getElementById('wt').textContent  = fmtT(elapsed);
-    document.getElementById('wsc').textContent = score;
-    document.getElementById('wd').textContent  = DIFF[selDiff].label;
-    document.getElementById('wcl').textContent = CU.credits;
-    document.getElementById('WN').classList.add('on');
-  },1100);
-}
-function animCells(){
+  ACTIVE=false;stopTimer();
+  const elapsed=Math.floor((Date.now()-T0)/1000);
+  const score=Math.max(10,Math.round((500-elapsed*2)*DCFG[DIFF].mult));
   const cells=document.querySelectorAll('.cell');
-  path.forEach((idx,i)=>setTimeout(()=>{const c=cells[idx];if(c)c.classList.add('cwin');},i*28));
+  PATH.forEach((idx,i)=>setTimeout(()=>{const c=cells[idx];if(c)c.classList.add('cwin');},i*22));
+  setTimeout(spawnConfetti,300);
+  try{
+    const games=[{diff:DIFF,time:elapsed,score,at:Date.now()},...(CU.games||[])].slice(0,50);
+    await DB.patch('zip_users','id=eq.'+CU.id,{score:(CU.score||0)+score,total_games:(CU.total_games||0)+1,games});
+    CU.score=(CU.score||0)+score;CU.total_games=(CU.total_games||0)+1;CU.games=games;saveSession(CU);
+  }catch(e){}
+  setTimeout(()=>{
+    document.getElementById('WT').textContent=fmtT(elapsed);
+    document.getElementById('WSC').textContent=score;
+    document.getElementById('WD').textContent=DCFG[DIFF].label;
+    document.getElementById('WCL').textContent=CU.credits;
+    document.getElementById('WO').classList.add('on');
+  },1000);
 }
-function closeWin(){document.getElementById('WN').classList.remove('on');}
 
-// ── CONFETTI ──
 function spawnConfetti(){
-  const cols=['#00e5ff','#ff6600','#ff1f6d','#00ff88','#ffe000','#8b4fff','#fff'];
-  for(let i=0;i<90;i++){
-    setTimeout(()=>{
-      const p=document.createElement('div'); p.className='cp';
-      p.style.cssText='left:'+Math.random()*100+'vw;width:'+(7+Math.random()*9)+'px;height:'+(7+Math.random()*9)+'px;background:'+cols[Math.floor(Math.random()*cols.length)]+';border-radius:'+(Math.random()<.5?'50%':'2px')+';animation-duration:'+(1.6+Math.random()*2.2)+'s;animation-delay:'+Math.random()*.9+'s;';
-      document.body.appendChild(p); setTimeout(()=>p.remove(),4500);
-    },i*18);
-  }
+  const cols=['#00e5ff','#ff6600','#ff1f6d','#00ff88','#ffe000','#8b4fff','#ffffff'];
+  for(let i=0;i<80;i++) setTimeout(()=>{
+    const p=document.createElement('div');p.className='cp';
+    p.style.cssText='left:'+Math.random()*100+'vw;width:'+(7+Math.random()*9)+'px;height:'+(7+Math.random()*9)+'px;background:'+cols[Math.floor(Math.random()*cols.length)]+';border-radius:'+(Math.random()<.5?'50%':'2px')+';animation-duration:'+(1.5+Math.random()*2)+'s;animation-delay:'+Math.random()*.8+'s;';
+    document.body.appendChild(p);setTimeout(()=>p.remove(),4000);
+  },i*20);
 }
+function closeWin(){document.getElementById('WO').classList.remove('on');}
 
-// ── TIMER ──
-function startTimer(){startTime=Date.now();timerInt=setInterval(()=>{document.getElementById('timerd').textContent=fmtT(Math.floor((Date.now()-startTime)/1000));},500);}
-function stopTimer(){clearInterval(timerInt);}
-function resetTimer(){stopTimer();document.getElementById('timerd').textContent='0:00';}
+// ═══════════════════════════════════════
+// TIMER
+// ═══════════════════════════════════════
+function startTimer(){T0=Date.now();TINT=setInterval(()=>{document.getElementById('TMR').textContent=fmtT(Math.floor((Date.now()-T0)/1000));},500);}
+function stopTimer(){clearInterval(TINT);}
+function resetTimer(){stopTimer();document.getElementById('TMR').textContent='0:00';}
 function fmtT(s){return Math.floor(s/60)+':'+(s%60).toString().padStart(2,'0');}
-function exitGame(){gameActive=false;stopTimer();nav('lobby');}
+function exitGame(){ACTIVE=false;stopTimer();nav('lobby');}
 
-// ── PROFILE ──
+// ═══════════════════════════════════════
+// PROFILE
+// ═══════════════════════════════════════
 async function loadProfile(){
   if(!CU) return;
-  try{
-    const rows=await sbGet('zip_users','id=eq.'+CU.id+'&select=*');
-    if(rows.length) CU=mapUser(rows[0]);
-  }catch(e){}
-  document.getElementById('pc').textContent   = CU.credits||0;
-  document.getElementById('bigc').textContent = CU.credits||0;
-  document.getElementById('pname').textContent= CU.display_name||'-';
-  document.getElementById('pav').textContent  = (CU.display_name||'?')[0].toUpperCase();
+  try{const rows=await DB.get('zip_users','id=eq.'+CU.id+'&select=*');if(rows.length){CU=mu(rows[0]);saveSession(CU);}}catch(e){}
+  document.getElementById('PC').textContent=CU.credits||0;
+  document.getElementById('BC').textContent=CU.credits||0;
+  document.getElementById('PN').textContent=CU.display_name||'-';
+  document.getElementById('PAV').textContent=(CU.display_name||'?')[0].toUpperCase();
   const games=CU.games||[];
-  document.getElementById('pstats').innerHTML=
-    '<div class="sbox"><div class="sv">'+games.length+'</div><div class="sl">Games</div></div>'+
-    '<div class="sbox"><div class="sv">'+(CU.score||0)+'</div><div class="sl">Score</div></div>'+
-    '<div class="sbox"><div class="sv">'+(games.length?fmtT(Math.min(...games.map(g=>g.time||999))):'--')+'</div><div class="sl">Best</div></div>';
-  try{
-    const lb=await sbGet('zip_users','order=score.desc&select=id');
-    const rank=lb.findIndex(u=>u.id===CU.id)+1;
-    document.getElementById('prank').textContent='Rank #'+(rank>0?rank:'-')+' of '+lb.length;
-  }catch(e){}
-  render2fa();
-  const gh=document.getElementById('ghist');
-  if(!games.length){gh.innerHTML='<div class="empty">No games yet — play your first!</div>';return;}
-  gh.innerHTML=games.slice(0,15).map(g=>'<div class="hi"><div><span style="color:var(--'+(g.diff==='easy'?'gn':g.diff==='medium'?'yw':'pk')+');font-weight:900;font-size:10px;text-transform:uppercase">'+g.diff+'</span>  Score '+g.score+'</div><div style="text-align:right;font-size:10px;color:var(--mu)">'+fmtT(g.time)+'<br>'+fmtD(g.at)+'</div></div>').join('');
+  document.getElementById('PST').innerHTML=
+    '<div class="sb"><div class="sv">'+games.length+'</div><div class="sl">Games</div></div>'+
+    '<div class="sb"><div class="sv">'+(CU.score||0)+'</div><div class="sl">Score</div></div>'+
+    '<div class="sb"><div class="sv">'+(games.length?fmtT(Math.min(...games.map(g=>g.time||999))):'--')+'</div><div class="sl">Best</div></div>';
+  try{const lb=await DB.get('zip_users','order=score.desc&select=id');const rk=lb.findIndex(u=>u.id===CU.id)+1;document.getElementById('PRK').textContent='Rank #'+(rk>0?rk:'-')+' of '+lb.length;}catch(e){}
+  r2fa();
+  const gh=document.getElementById('GH');
+  if(!games.length){gh.innerHTML='<div class="empty">No games yet!</div>';return;}
+  gh.innerHTML=games.slice(0,15).map(g=>'<div class="hi"><div><span style="color:var(--'+(g.diff==='easy'?'gn':g.diff==='medium'?'yw':'pk')+');font-weight:900;font-size:10px;text-transform:uppercase">'+g.diff+'</span>&nbsp;&nbsp;Score '+g.score+'</div><div style="text-align:right;font-size:10px;color:var(--mu)">'+fmtT(g.time)+'<br>'+fmtD(g.at)+'</div></div>').join('');
 }
 
-// ── LEADERBOARD ──
+// ═══════════════════════════════════════
+// LEADERBOARD
+// ═══════════════════════════════════════
 async function loadLb(){
-  document.getElementById('lbc').innerHTML='<div class="spin"></div>';
+  document.getElementById('LBC').innerHTML='<div class="spin"></div>';
   try{
-    const data=await sbGet('zip_users','order=score.desc&limit=50&select=id,display_name,score,total_games');
+    const data=await DB.get('zip_users','order=score.desc&limit=50&select=id,display_name,score,total_games');
     const medals=['&#127871;','&#127872;','&#127873;'];
-    document.getElementById('lbc').innerHTML=data.map((u,i)=>
-      '<div class="lrow '+(u.id===CU.id?'me':'')+'">'+
-        '<div class="lrank">'+(medals[i]||'#'+(i+1))+'</div>'+
-        '<div><div class="lname">'+u.display_name+'</div><div style="font-size:10px;color:var(--mu)">'+(u.total_games||0)+' games</div></div>'+
-        '<div class="lsc">'+(u.score||0)+'</div>'+
-      '</div>').join('');
-  }catch(e){document.getElementById('lbc').innerHTML='<div class="empty">Could not load rankings</div>';}
+    if(!data.length){document.getElementById('LBC').innerHTML='<div class="empty">No players yet!</div>';return;}
+    document.getElementById('LBC').innerHTML=data.map((u,i)=>
+      '<div class="lrow '+(u.id===CU.id?'me':'')+'"><div class="lrk">'+(medals[i]||'#'+(i+1))+'</div><div><div class="lnm">'+u.display_name+'</div><div style="font-size:10px;color:var(--mu)">'+(u.total_games||0)+' games</div></div><div class="lsc">'+(u.score||0)+'</div></div>'
+    ).join('');
+  }catch(e){document.getElementById('LBC').innerHTML='<div class="empty">Could not load</div>';}
 }
 
-// ── UTILS ──
+// ═══════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════
 function openOl(id){document.getElementById(id).classList.add('on');}
 function closeOl(id){document.getElementById(id).classList.remove('on');}
 function setMsg(id,msg,type){const e=document.getElementById(id);e.textContent=msg;e.className='msg '+(msg?type+' on':'');}
@@ -860,11 +941,26 @@ function fmtD(ts){return new Date(ts).toLocaleDateString('en-IN',{day:'numeric',
 let _tt;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),2300);}
 
+// ═══════════════════════════════════════
+// INIT — restore session on page load/refresh
+// ═══════════════════════════════════════
+(async function init(){
+  const saved=loadSession();
+  if(saved&&saved.id){
+    // Re-verify account still exists
+    try{
+      const rows=await DB.get('zip_users','id=eq.'+saved.id+'&select=*');
+      if(rows.length){CU=mu(rows[0]);saveSession(CU);afterLogin();return;}
+    }catch(e){}
+  }
+  show('SA');
+})();
+
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'){
-    if(document.getElementById('A').classList.contains('on'))        doAuth();
-    if(document.getElementById('ol_code').classList.contains('on'))  redeemCode();
-    if(document.getElementById('ol_lo2').classList.contains('on'))   verify2faLogout();
+    if(document.getElementById('SA').classList.contains('on')) doAuth();
+    if(document.getElementById('OC').classList.contains('on')) redeemCode();
+    if(document.getElementById('OL2').classList.contains('on')) v2faLogout();
   }
 });
 </script>
