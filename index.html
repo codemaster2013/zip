@@ -511,7 +511,7 @@ async function doAuth(){
         password_hash:ph,salt,
         credits:2,score:0,total_games:0,
         two_fa_enabled:false,two_fa_code:'',
-        games:[],streak:0,last_played:null
+        games:[],streak:0,last_played:''
       });
       if(!rows||!rows.length)rows=await DB.get('zip_users','username_hash=eq.'+uh+'&select=*');
       if(!rows||!rows.length)throw new Error('Account created — please sign in.');
