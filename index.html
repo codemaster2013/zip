@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>ZIP — Connect the Dots</title>
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -197,15 +199,50 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 #toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--sf);border:1px solid var(--ac);color:var(--ac);border-radius:10px;padding:8px 16px;font-size:13px;font-weight:600;opacity:0;transition:all .22s;z-index:999;white-space:nowrap;pointer-events:none;}
 #toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 ::-webkit-scrollbar{width:3px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--bd);border-radius:2px;}
+
+/* ANNOUNCEMENT BANNER */
+#ANN{display:none;align-items:center;gap:9px;padding:9px 16px;font-size:12px;font-weight:600;line-height:1.4;flex-shrink:0;border-bottom:1px solid transparent;animation:slideDown .3s ease;}
+#ANN.on{display:flex;}
+#ANN.ann-info{background:rgba(59,130,246,.13);border-bottom-color:rgba(59,130,246,.25);color:#93c5fd;}
+#ANN.ann-warn{background:rgba(234,179,8,.13);border-bottom-color:rgba(234,179,8,.25);color:#fde047;}
+#ANN.ann-good{background:rgba(34,197,94,.12);border-bottom-color:rgba(34,197,94,.25);color:#86efac;}
+#ANN.ann-promo{background:rgba(139,92,246,.13);border-bottom-color:rgba(139,92,246,.25);color:#c4b5fd;}
+.ann-icon{font-size:15px;flex-shrink:0;}
+.ann-txt{flex:1;}
+.ann-close{background:none;border:none;cursor:pointer;color:inherit;opacity:.6;font-size:16px;padding:0 2px;flex-shrink:0;line-height:1;}
+.ann-close:hover{opacity:1;}
+@keyframes slideDown{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+
+/* MAINTENANCE SCREEN */
+#SM{display:none;position:fixed;inset:0;z-index:9999;background:var(--bg);flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px;}
+#SM.on{display:flex;}
+.maint-icon{font-size:64px;margin-bottom:18px;animation:pulse 2s ease infinite;}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06);}}
 </style>
 </head>
 <body>
+
+<!-- MAINTENANCE SCREEN -->
+<div id="SM">
+  <div class="maint-icon">🔧</div>
+  <div style="font-family:'Orbitron',monospace;font-size:22px;font-weight:900;color:#fff;margin-bottom:10px">Under Maintenance</div>
+  <div style="color:var(--mu);font-size:14px;max-width:280px;line-height:1.6" id="SMT">ZIP is currently down for maintenance. Check back soon!</div>
+  <div style="margin-top:22px;font-size:12px;color:var(--mu)">— The ZIP Team</div>
+</div>
+
+<!-- GLOBAL ANNOUNCEMENT BANNER (sits above all screens inside the body flow) -->
+<div id="ANN">
+  <span class="ann-icon" id="ANN_ICON">📢</span>
+  <span class="ann-txt" id="ANN_TXT"></span>
+  <button class="ann-close" onclick="document.getElementById('ANN').classList.remove('on')" title="Dismiss">✕</button>
+</div>
 
 <!-- AUTH — default tab: REGISTER -->
 <div id="SA" class="scr on">
   <div class="abox">
     <div class="logo-wrap">
-      <div class="logo-text">ZIP</div>
+      <img src="logo.png" alt="ZIP" style="width:220px;max-width:80vw;display:block;margin:0 auto 2px;mix-blend-mode:screen;" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
+      <div id="logo-fallback" style="display:none" class="logo-text">ZIP</div>
       <div class="logo-sub">Connect &middot; Fill &middot; Win</div>
     </div>
     <div class="card">
@@ -227,7 +264,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 
 <!-- LOBBY -->
 <div id="SL" class="scr">
-  <div class="tb"><div class="tb-logo">ZIP</div><div class="chip">&#9889; <span id="LC">0</span></div></div>
+  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:28px;display:block;mix-blend-mode:screen;" onerror="this.outerHTML='ZIP'"></div><div class="chip">&#9889; <span id="LC">0</span></div></div>
   <div class="lwrap">
     <div class="page-title">New Puzzle</div>
     <div class="page-sub">Select difficulty &mdash; 1 credit per game</div>
@@ -282,7 +319,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 
 <!-- PROFILE -->
 <div id="SP" class="scr">
-  <div class="tb"><div class="tb-logo">ZIP</div><div class="chip">&#9889; <span id="PC">0</span></div></div>
+  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:28px;display:block;mix-blend-mode:screen;" onerror="this.outerHTML='ZIP'"></div><div class="chip">&#9889; <span id="PC">0</span></div></div>
   <div class="pbody">
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
       <div class="av" id="PAV">?</div>
@@ -318,7 +355,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 
 <!-- LEADERBOARD -->
 <div id="SR" class="scr">
-  <div class="tb"><div class="tb-logo">ZIP</div><div style="font-size:12px;font-weight:600;color:var(--mu)">Global Ranks</div></div>
+  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:28px;display:block;mix-blend-mode:screen;" onerror="this.outerHTML='ZIP'"></div><div style="font-size:12px;font-weight:600;color:var(--mu)">Global Ranks</div></div>
   <div class="lbb">
     <div class="lb-tabs">
       <div class="lb-tab on" onclick="setLbTab('all',this)">All Time</div>
@@ -981,6 +1018,8 @@ async function loadLb(){
   document.getElementById('LBC').innerHTML='<div class="spin"></div>';
   try{
     let data=await DB.get('zip_users','order=score.desc&limit=100&select=id,display_name,score,total_games,games,last_played');
+    // Only show players who have actually played
+    data=data.filter(u=>(u.total_games||0)>0||(u.score||0)>0);
     if(lbTab==='today'){
       const today=new Date().toDateString();
       data=data.filter(u=>u.last_played===today).map(u=>({...u,score:(u.games||[]).filter(g=>{const d=new Date(g.at);return d.toDateString()===today;}).reduce((s,g)=>s+g.score,0)}));
@@ -1014,9 +1053,44 @@ let _tt;
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),2500);}
 
 // ═══════════════════════════════
+// ANNOUNCEMENT & MAINTENANCE
+// ═══════════════════════════════
+const ANN_ICONS={info:'📢',warn:'⚠️',good:'🎉',promo:'🚀'};
+async function checkConfig(){
+  try{
+    const rows=await DB.get('zip_config','select=key,val');
+    const cfg={};rows.forEach(r=>cfg[r.key]=r.val);
+
+    // Maintenance check
+    if(cfg['maintenance']==='1'){
+      document.getElementById('SMT').textContent=cfg['maintenance_msg']||'ZIP is currently down for maintenance. Check back soon!';
+      document.getElementById('SM').classList.add('on');
+      return true; // blocked
+    }else{
+      document.getElementById('SM').classList.remove('on');
+    }
+
+    // Announcement banner
+    const msg=cfg['announce_msg']||'';
+    const color=cfg['announce_color']||'info';
+    const ann=document.getElementById('ANN');
+    if(msg){
+      document.getElementById('ANN_TXT').textContent=msg;
+      document.getElementById('ANN_ICON').textContent=ANN_ICONS[color]||'📢';
+      ann.className='ann-'+color+' on';
+    }else{
+      ann.classList.remove('on');
+    }
+  }catch(e){/* table may not exist yet — silent fail */}
+  return false;
+}
+
+// ═══════════════════════════════
 // INIT — restore session on page load/refresh
 // ═══════════════════════════════
 (async function init(){
+  const blocked=await checkConfig();
+  if(blocked)return;
   const saved=loadSession();
   if(saved&&saved.id){
     try{
