@@ -431,7 +431,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 // ═══════════════════════════════
 // CONFIG
 // ═══════════════════════════════
-const SB_URL  = 'https://etqzwknhswgtrsyjhbvf.supabase.co/';
+const SB_URL  = 'https://etqzwknhswgtrsyjhbvf.supabase.co';
 const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0cXp3a25oc3dndHJzeWpoYnZmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxNjcwNTcsImV4cCI6MjA5MTc0MzA1N30.E5-g1h80-hgx2KpS6zK7j8GzQ5k7ajlzpF7ghT2ny50';
 const SES_KEY = 'zip_v4_session';
 
@@ -548,7 +548,7 @@ async function doAuth(){
         password_hash:ph,salt,
         credits:2,score:0,total_games:0,
         two_fa_enabled:false,two_fa_code:'',
-        games:[],streak:0,last_played:''
+        games:[]
       });
       if(!rows||!rows.length)rows=await DB.get('zip_users','username_hash=eq.'+uh+'&select=*');
       if(!rows||!rows.length)throw new Error('Account created — please sign in.');
@@ -576,7 +576,7 @@ function mu(u){
   return{id:u.id,display_name:u.display_name,credits:u.credits||0,score:u.score||0,
     total_games:u.total_games||0,two_fa_enabled:u.two_fa_enabled||false,
     two_fa_code:u.two_fa_code||'',games:u.games||[],
-    streak:u.streak||0,last_played:u.last_played||null};
+    streak:u.streak||0,last_played:u.last_played||''};
 }
 function afterLogin(){document.getElementById('NP').classList.add('on');openLobby();}
 
