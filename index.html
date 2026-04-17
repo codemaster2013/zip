@@ -9,11 +9,78 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0f1117; --sf:#1a1d27; --s2:#222636; --bd:#2a2e40; --bdl:#353a52;
-  --ac:#6366f1; --ac2:#8b5cf6; --tx:#f1f5f9; --mu:#64748b;
+  --bg:#0a0e1a; --sf:#111827; --s2:#1a2035; --bd:#1e2d4a; --bdl:#2a3d60;
+  --ac:#4f8ef7; --ac2:#9b59f5; --tx:#f1f5f9; --mu:#7a8caa;
   --gn:#22c55e; --yw:#eab308; --rd:#ef4444; --or:#f97316;
+  --zip-blue:#3b82f6; --zip-purple:#8b5cf6; --zip-pink:#ec4899;
+  --zip-grad:linear-gradient(135deg,#f97316,#ec4899,#8b5cf6,#3b82f6,#06b6d4);
+  --zip-grad2:linear-gradient(90deg,#f97316,#f59e0b,#ec4899,#8b5cf6,#3b82f6);
   --cell:56px;
 }
+
+/* ── GLOBAL COLORFUL ENHANCEMENTS ── */
+body{background:radial-gradient(ellipse at 20% 0%,rgba(59,130,246,.12) 0%,transparent 55%),
+     radial-gradient(ellipse at 80% 0%,rgba(139,92,246,.10) 0%,transparent 55%),var(--bg);}
+
+/* Colorful scrollbar */
+::-webkit-scrollbar-thumb{background:linear-gradient(180deg,#3b82f6,#8b5cf6)!important;}
+
+/* Auth screen gradient bg */
+#SA{background:radial-gradient(ellipse at 50% -10%,rgba(59,130,246,.18) 0%,transparent 60%),var(--bg);}
+
+/* Auth card colorful border */
+.card{border-image:none;border-color:rgba(59,130,246,.25)!important;box-shadow:0 0 40px rgba(59,130,246,.08),0 0 80px rgba(139,92,246,.05);}
+
+/* Colorful logo-sub */
+.logo-sub{background:var(--zip-grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;font-weight:700;letter-spacing:3px;}
+
+/* Colorful primary button */
+.bp{background:linear-gradient(135deg,#3b82f6,#8b5cf6)!important;box-shadow:0 4px 20px rgba(99,102,241,.35);}
+.bp:hover:not(:disabled){filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 6px 28px rgba(99,102,241,.5);}
+
+/* Topbar colorful bottom border */
+.tb{border-bottom:1px solid transparent;border-image:var(--zip-grad2) 1;background:rgba(10,14,26,.97);}
+
+/* Topbar logo */
+.tb-logo img{display:block;}
+
+/* Bottom nav active colorful */
+.nb.on{color:#4f8ef7;}
+.nb.on svg{filter:drop-shadow(0 0 4px rgba(79,142,247,.7));}
+#BN{border-top:1px solid transparent;border-image:var(--zip-grad2) 1;background:rgba(10,14,26,.98);}
+
+/* Difficulty cards colorful */
+.de.on{border-color:#3b82f6;background:rgba(59,130,246,.1);box-shadow:0 0 20px rgba(59,130,246,.12);}
+.dm.on{border-color:#8b5cf6;background:rgba(139,92,246,.1);box-shadow:0 0 20px rgba(139,92,246,.12);}
+.dh.on{border-color:#ec4899;background:rgba(236,72,153,.1);box-shadow:0 0 20px rgba(236,72,153,.12);}
+
+/* Leaderboard #1 row golden glow */
+.lrow:nth-child(1){border-color:rgba(234,179,8,.5);box-shadow:0 0 16px rgba(234,179,8,.08);}
+
+/* Win overlay colorful */
+#WO{background:radial-gradient(ellipse at 50% 0%,rgba(139,92,246,.25) 0%,rgba(59,130,246,.12) 40%,rgba(0,0,0,.94) 100%);}
+
+/* Confetti-like colorful tab indicator */
+.atab.on{background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(139,92,246,.18));color:var(--tx);}
+.lb-tab.on{background:linear-gradient(135deg,rgba(59,130,246,.18),rgba(139,92,246,.18));color:var(--tx);}
+
+/* Stats value color */
+.sv{background:var(--zip-grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.wsv{background:var(--zip-grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.lsc{background:var(--zip-grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+
+/* Streak badge colorful */
+.streak-badge{background:linear-gradient(135deg,rgba(249,115,22,.18),rgba(236,72,153,.12));border-color:rgba(249,115,22,.35);color:#fb923c;}
+
+/* Grid wrapper colorful glow */
+.gw{box-shadow:0 0 0 1px rgba(59,130,246,.2),0 8px 40px rgba(59,130,246,.12),0 0 80px rgba(139,92,246,.06);}
+
+/* Hint button */
+#HB{background:linear-gradient(135deg,rgba(124,58,237,.25),rgba(99,102,241,.2));border:1.5px solid rgba(139,92,246,.4);color:#c4b5fd;}
+#HB.lit{background:linear-gradient(135deg,#7c3aed,#4f8ef7);border-color:transparent;box-shadow:0 0 24px rgba(124,58,237,.55);}
+
+/* Chip colorful */
+.chip{background:linear-gradient(135deg,rgba(234,179,8,.15),rgba(249,115,22,.1));border-color:rgba(234,179,8,.3);}
 @media(max-width:430px){:root{--cell:46px;}}
 @media(max-width:350px){:root{--cell:40px;}}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
@@ -241,7 +308,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 <div id="SA" class="scr on">
   <div class="abox">
     <div class="logo-wrap">
-      <img src="logo.png" alt="ZIP" style="width:220px;max-width:80vw;display:block;margin:0 auto 2px;mix-blend-mode:screen;" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
+      <img src="logo.png" alt="ZIP" style="width:260px;max-width:85vw;display:block;margin:0 auto 4px;" onerror="this.style.display='none';document.getElementById('logo-fallback').style.display='block'">
       <div id="logo-fallback" style="display:none" class="logo-text">ZIP</div>
       <div class="logo-sub">Connect &middot; Fill &middot; Win</div>
     </div>
@@ -264,7 +331,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 
 <!-- LOBBY -->
 <div id="SL" class="scr">
-  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:28px;display:block;mix-blend-mode:screen;" onerror="this.outerHTML='ZIP'"></div><div class="chip">&#9889; <span id="LC">0</span></div></div>
+  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:40px;display:block;" onerror="this.outerHTML='ZIP'"></div><div class="chip">&#9889; <span id="LC">0</span></div></div>
   <div class="lwrap">
     <div class="page-title">New Puzzle</div>
     <div class="page-sub">Select difficulty &mdash; 1 credit per game</div>
@@ -319,7 +386,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 
 <!-- PROFILE -->
 <div id="SP" class="scr">
-  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:28px;display:block;mix-blend-mode:screen;" onerror="this.outerHTML='ZIP'"></div><div class="chip">&#9889; <span id="PC">0</span></div></div>
+  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:40px;display:block;" onerror="this.outerHTML='ZIP'"></div><div class="chip">&#9889; <span id="PC">0</span></div></div>
   <div class="pbody">
     <div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
       <div class="av" id="PAV">?</div>
@@ -355,7 +422,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--tx);}
 
 <!-- LEADERBOARD -->
 <div id="SR" class="scr">
-  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:28px;display:block;mix-blend-mode:screen;" onerror="this.outerHTML='ZIP'"></div><div style="font-size:12px;font-weight:600;color:var(--mu)">Global Ranks</div></div>
+  <div class="tb"><div class="tb-logo"><img src="logo.png" alt="ZIP" style="height:40px;display:block;" onerror="this.outerHTML='ZIP'"></div><div style="font-size:12px;font-weight:600;color:var(--mu)">Global Ranks</div></div>
   <div class="lbb">
     <div class="lb-tabs">
       <div class="lb-tab on" onclick="setLbTab('all',this)">All Time</div>
